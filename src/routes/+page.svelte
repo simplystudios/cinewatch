@@ -56,6 +56,10 @@
     console.log(allseasonsdata);
   }
 
+  const playep = () =>{
+    
+  }
+
   const playnextep = (id,season,ep) =>{
     dialogPlayer = false;
     playerurl = "https://multiembed.mov/?video_id="+id+ `&s=${season}&`+`e=${ep}`;
@@ -110,7 +114,7 @@
   <div class="grid md:grid-cols-5 gap-4 grid-cols-2 ">
       {#each searchd as d}
       {#if searchd.length > 0}
-      <div on:click={() => ggs(d.id)}>
+      <button on:click={() => ggs(d.id)}>
           <Card.Root class=" border-gray-200 dark:border-zinc-700">
           <Card.Header class="p-3">
             <img class=" object-cover rounded h-[250px] w-auto" src={d.image} alt="">
@@ -125,7 +129,7 @@
             </Card.Description>
           </Card.Header>
         </Card.Root>
-      </div>
+      </button>
       
     {:else}
       console.warn("No Results")
@@ -140,7 +144,7 @@
   <Dialog.Trigger class=""></Dialog.Trigger>
   <Dialog.Content class="">
     <Dialog.Header class="">
-      <iframe width="100%" height="300px" allowfullscreen=true  src={playerurl} frameborder="0"></iframe>
+      <iframe title="Movie" width="100%" height="300px" allowfullscreen=true  src={playerurl} frameborder="0"></iframe>
       {#if infoj && infoj.all_seasons}
         <Button on:click={() => playnextep(infoj.id,1,epnum+1)} variant="outline">Next Episode</Button>
       {/if}
