@@ -23,7 +23,7 @@
 </script>
 <slot >
 
-  <div class="p-2 ">
+  <div class="p-2 mt-2">
         <div class="flex justify-center">
           <button onclick="" class="text-center text-2xl font-medium">CineWatch</button>
         </div>

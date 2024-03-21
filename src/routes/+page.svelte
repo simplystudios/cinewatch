@@ -4,11 +4,15 @@
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
   import Layout from "./+layout.svelte";
+  import { Twitter } from 'lucide-svelte';
   import { Star } from 'lucide-svelte';
+  import { Coffee } from 'lucide-svelte';
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { Input } from "$lib/components/ui/input";
+  import { Mail } from 'lucide-svelte';
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import { Search } from 'lucide-svelte';
+  import { Github } from 'lucide-svelte';
   import { Badge } from "$lib/components/ui/badge";
   import { Calendar } from 'lucide-svelte';
   import CardContent from "$lib/components/ui/card/card-content.svelte";
@@ -22,7 +26,7 @@
    * @type {string | any[]}
    */
   let searchd = [];
-  let searchcss = " flex items-center justify-center p-40 mb-20"
+  let searchcss = " flex items-center justify-center p-40 mb-10"
   let dialogOpen = false;
   let epnum = 0;
   let dialogPlayer = false;
@@ -112,9 +116,7 @@
 
 <Layout/>
 <div class="max-h-max">
-  <!-- <div class="flex justify-center">
-    <img class=" mb-auto mt-10" width="100px" src="/logowhite.png" alt="">
-  </div> -->
+
   <div class={searchcss}>
     <Input class=" w-96 h-14" on:change={func} bind:value={searchterm} placeholder="🔎 Search A Movie or a Show.."></Input>
   </div>
@@ -125,7 +127,7 @@
       <button on:click={() => ggs(d.id)}>
           <Card.Root class=" border-gray-200 dark:border-zinc-700">
           <Card.Header class="p-3">
-            <img class=" object-cover rounded h-[250px] w-auto" src={d.image} alt="">
+            <img class=" object-cover rounded h-[300px] w-auto" src={d.image} alt="">
             <Card.Title class="">
               {d.title}
             </Card.Title>
@@ -274,13 +276,40 @@
     </Dialog.Header>
   </Dialog.Content>
 </Dialog.Root>
+<Separator class="" orientation="horizontal" />
+<footer class="h-max bottom-auto top-auto mb-3">
+  <div class="flex mt-5 pr-8 justify-between">
+    <div class="ml-2">
 
-<footer class=" text-center relative bottom-auto top-auto">
-  <Separator class="" orientation="horizontal" />
-  <div class="mt-10 flex">
-    <p class=" text-sm">Created by Ansh Wadhwa</p>
-    <p class="text-sm sticky ml-2 w-96">
+    <p class="font-bold">Contact Us</p>
+    <br>
+    <div class="flex space-x-2">
+          <a href="https://twitter.com/anshwadhwa8">
+            <Twitter />
+          </a>
+          <a href="https://buymeacoffee.com/anshwadhwa8">
+            <Coffee />
+          </a>
+          <a href="https://github.com/simplystudios">
+            <Github/>
+          </a>
+          <Mail href="" />
+
+    </div>
+    <div class="flex space-x-2 mt-4">
+    <a href="https://anshwadhwa.vercel.app/" class=" text-center text-sm">
+      Ansh Wadhwa
+    </a>
+    <h2 class="text-sm">&bull;</h2>
+   <h2 class="text-sm text-center">Copyright @ 2024</h2>
+  </div>
+    </div>
+    
+    <div class=" text-right bottom-0 left-0 float-right">
+      <h1 class=" font-bold mb-1">*Disclaimer</h1>
+       <p class="text-sm w-96 mb-2">
       CineWatch does not host any files, it merely links to 3rd party services. Legal issues should be taken up with the file hosts and providers. movie-web is not responsible for any media files shown by the video providers.
     </p>
+    </div>
   </div>
 </footer>
