@@ -24,7 +24,9 @@
 <slot >
 
   <div class="p-2 ">
-        <h1 class="text-center text-2xl font-medium">CineWatch</h1>
+        <div class="flex justify-center">
+          <button onclick="" class="text-center text-2xl font-medium">CineWatch</button>
+        </div>
          <p class=" text-center text-xs">🍿🎬</p>
     <div>
     </div>
