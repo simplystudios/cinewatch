@@ -64,14 +64,14 @@
   const playep = (id,season,ep) =>{
     dialogOpen = false;
     epnum = ep;
-    playerurl = "https://vidsrc.xyz/embed/"+id+ `/${season}`+`/${ep}`;
+    playerurl = "https://vidsrc.xyz/embed/"+id+ `/${season}`+`-${ep}`;
     dialogPlayer = true;
   }
 
   const playnextep = (id,season,ep) =>{
     dialogPlayer = false;
     epnum = ep;
-    playerurl = "https://vidsrc.xyz/embed/"+id+ `/${season}`+`/${ep}/`;
+    playerurl = "https://vidsrc.xyz/embed/"+id+ `/${season}`+`-${ep}/`;
     dialogPlayer = true;
   }
 
@@ -79,7 +79,7 @@
     if(type == "tvSeries"){
       dialogOpen = false;
       dialogPlayer = true;
-      playerurl = "https://vidsrc.xyz/embed/"+id+"/1"+"/1/";
+      playerurl = "https://vidsrc.xyz/embed/"+id+"/1"+"-1/";
       let test = await fetch(playerurl)
       test = await test.json()
       epnum = epnum + 1;
