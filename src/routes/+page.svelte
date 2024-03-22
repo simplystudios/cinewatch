@@ -25,7 +25,9 @@
    */
   let searchd = [];
   let searchcss = " flex items-center justify-center p-40 pt-10 pb-20 mb-10"
+  let cssp = ""
   let dialogOpen = false;
+  let hid = "flex justify-center pt-40"
   let epnum = 0;
   let dialogPlayer = false;
   let serverd = []
@@ -104,6 +106,8 @@
       const response = await fetch(`https://imdb-api.new-anshwadhwa.workers.dev/search?query=${searchterm}`);
       const searchData = await response.json();
       searchcss = "flex items-center justify-center p-10 mb-auto"
+      cssp = "hidden"
+      hid = "flex justify-center"
       searchd = searchData.results;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -114,7 +118,7 @@
 
 <Layout/>
 <div class="max-h-max">
-  <div class="flex justify-center pt-40">
+  <div class={hid}>
     {#if $mode == "dark"}
       <img src="/logo23.png" alt="" height="100" width="100">
     {:else}
@@ -129,9 +133,13 @@
   <div class={searchcss}>
     <Input class=" w-96 h-14" on:change={func} bind:value={searchterm} placeholder="🔎 Search A Movie or a Show.."></Input>
   </div>
-<div class="mt-40 text-center text-xl font-bold mb-2 ">
-  <h1>Faq/Questions</h1>
-</div>
+<div>
+
+
+<div class={cssp}>
+  <div class="mt-40 text-center text-xl font-bold mb-2 ">
+    <h1>Faq/Questions</h1>
+  </div>
 <div class="flex justify-center mb-20 ">
   <Accordion.Root class=" justify-center w-full sm:max-w-[70%]">
   <Accordion.Item value="item-1">
@@ -153,6 +161,8 @@
     </Accordion.Content>
   </Accordion.Item>
 </Accordion.Root>
+  </div>
+</div>
 </div>
   <div class="grid md:grid-cols-5 gap-4 grid-cols-2 ">
       {#each searchd as d}
