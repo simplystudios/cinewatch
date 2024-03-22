@@ -24,7 +24,7 @@
    * @type {string | any[]}
    */
   let searchd = [];
-  let searchcss = " flex items-center justify-center p-40 pt-10 pb-10 mb-1"
+  let searchcss = " flex items-center justify-center p-40 pt-10 pb-20 mb-1"
   let dialogOpen = false;
   let epnum = 0;
   let dialogPlayer = false;
@@ -114,7 +114,7 @@
 
 <Layout/>
 <div class="max-h-max">
-  <div class="flex justify-center pt-20">
+  <div class="flex justify-center pt-40">
     {#if $mode == "dark"}
       <img src="/logo23.png" alt="" height="100" width="100">
     {:else}
@@ -129,7 +129,7 @@
   <div class={searchcss}>
     <Input class=" w-96 h-14" on:change={func} bind:value={searchterm} placeholder="🔎 Search A Movie or a Show.."></Input>
   </div>
-<div class="mt-20 text-center text-xl font-bold mb-2 ">
+<div class="mt-40 text-center text-xl font-bold mb-2 ">
   <h1>Faq/Questions</h1>
 </div>
 <div class="flex justify-center mb-20 ">
