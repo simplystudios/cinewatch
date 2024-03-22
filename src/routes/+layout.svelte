@@ -10,35 +10,46 @@
     import { Settings } from 'lucide-svelte';
     import * as Alert from "$lib/components/ui/alert";
     import { Label } from "$lib/components/ui/label";
+    import { toast } from "svelte-sonner";
+    import { setMode, resetMode, mode } from "mode-watcher";
     import { Switch } from "$lib/components/ui/switch";
     import { TriangleAlert } from 'lucide-svelte';
     import Moon from "lucide-svelte/icons/moon";
-
+  import { onMount } from "svelte";
     let dialogOpen = false;
 
     const toggled = () =>{
       dialogOpen = true;
       console.log("open")
     }
+
+    const homeback=() =>{
+      
+    }
+    // onMount(()=>{
+
+    // })
 </script>
 <slot >
 
   <div class="p-2 mt-2">
         <div class="flex justify-center">
-          <button onclick="" class="text-center text-2xl font-medium">CineWatch</button>
+          <button on:click={homeback} variant="link" class="text-center text-2xl font-medium">CineWatch</button>
         </div>
          <p class=" text-center text-xs">🍿🎬</p>
     <div>
     </div>
     <div class="flex justify-center mt-2">
-        <Button class="" on:click={toggleMode} variant="icon" size="icon">
-              <Sun
-                class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
-              />
-              <Moon
-                class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
-              />
-              <span class="sr-only">Toggle theme</span>
+        <Button on:click={toggleMode} variant="link" size="icon">
+          {#if $mode === 'light'}
+            <Sun
+              class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-foreground"
+            />
+          {:else}
+            <Moon
+              class="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-foreground"
+            />
+          {/if}
         </Button>
         <Separator class=" w-11/12" orientation="vertical" />
 
@@ -57,7 +68,7 @@
           <Tabs.Root value="account" class=" w-auto">
   <Tabs.List class=" w-full">
     <Tabs.Trigger class="w-auto" value="account">Simple</Tabs.Trigger>
-    <Tabs.Trigger class="w-auto" value="password">Advanced</Tabs.Trigger>
+    <Tabs.Trigger class="w-auto" value="password">About</Tabs.Trigger>
   </Tabs.List>
   <Alert.Root class="mt-4">
             <TriangleAlert class="" />
@@ -86,12 +97,16 @@
 <br>
 <Separator orientation="horizontal" />
 <br>
-<Label>Made By Punchoneman</Label>
+<Label>Made By Ansh Wadhwa</Label>
   </Tabs.Content>
   <Tabs.Content value="password">
-    <div class="flex items-center space-x-2">
-  <Switch id="airplane-mode" />
-  <Label for="airplane-mode">Airplane Mode</Label>
+    <div class="items-center space-x-2">
+  <Label class="mb-2">Disclaimer</Label>
+  <p>CineWatch does not host any files, it merely links to 3rd party services. Legal issues should be taken up with the file hosts and providers. CineWatch is not responsible for any media files shown by the video providers.</p>
+  <br>
+  <Separator orientation="horizontal" />
+  <br>
+  <Label>Made By Ansh Wadhwa</Label>
 </div>
   </Tabs.Content>
 </Tabs.Root>

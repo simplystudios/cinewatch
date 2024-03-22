@@ -279,7 +279,7 @@
 <Separator class="" orientation="horizontal" />
 <footer class="h-max bottom-auto top-auto mb-3">
   <div class="flex mt-5 pr-8 justify-between">
-    <div class="ml-2">
+    <div class="ml-2 mr-5">
 
     <p class="font-bold">Contact Us</p>
     <br>
@@ -293,22 +293,15 @@
           <a href="https://github.com/simplystudios">
             <Github/>
           </a>
-          <Mail href="" />
+          <!-- <Mail href="" /> -->
 
     </div>
-    <div class="flex space-x-2 mt-4">
-    <a href="https://anshwadhwa.vercel.app/" class=" text-center text-sm">
-      Ansh Wadhwa
-    </a>
-    <h2 class="text-sm">&bull;</h2>
-   <h2 class="text-sm text-center">Copyright @ 2024</h2>
-  </div>
     </div>
     
     <div class=" text-right bottom-0 left-0 float-right">
       <h1 class=" font-bold mb-1">*Disclaimer</h1>
-       <p class="text-sm w-96 mb-2">
-      CineWatch does not host any files, it merely links to 3rd party services. Legal issues should be taken up with the file hosts and providers. movie-web is not responsible for any media files shown by the video providers.
+       <p class="text-sm w-min-max mb-2">
+      CineWatch does not host any files, it merely links to 3rd party services. Legal issues should be taken up with the file hosts and providers. CineWatch is not responsible for any media files shown by the video providers.
     </p>
     </div>
   </div>
