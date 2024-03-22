@@ -5,17 +5,15 @@
   import * as Card from "$lib/components/ui/card";
   import Layout from "./+layout.svelte";
   import { Twitter } from 'lucide-svelte';
+  import { setMode, resetMode, mode } from "mode-watcher";
   import { Star } from 'lucide-svelte';
   import { Coffee } from 'lucide-svelte';
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { Input } from "$lib/components/ui/input";
-  import { Mail } from 'lucide-svelte';
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
-  import { Search } from 'lucide-svelte';
   import { Github } from 'lucide-svelte';
   import { Badge } from "$lib/components/ui/badge";
-  import { Calendar } from 'lucide-svelte';
-  import CardContent from "$lib/components/ui/card/card-content.svelte";
+  import * as Accordion from "$lib/components/ui/accordion";
   import * as Dialog from "$lib/components/ui/dialog";
   import Warning from "postcss/lib/warning";
   import Root from "postcss/lib/root";
@@ -26,7 +24,7 @@
    * @type {string | any[]}
    */
   let searchd = [];
-  let searchcss = " flex items-center justify-center p-40 mb-10"
+  let searchcss = " flex items-center justify-center p-40 pt-10 pb-10 mb-1"
   let dialogOpen = false;
   let epnum = 0;
   let dialogPlayer = false;
@@ -116,11 +114,46 @@
 
 <Layout/>
 <div class="max-h-max">
-
+  <div class="flex justify-center pt-20">
+    {#if $mode == "dark"}
+      <img src="/logo23.png" alt="" height="100" width="100">
+    {:else}
+      <img src="/logo23black.png" alt="" height="100" width="100">
+    {/if}
+  </div>
+  <div class="flex justify-center">
+          <button variant="link" class="text-center text-2xl font-medium mt-4">CineWatch</button>
+        </div>
+    <div>
+  </div>
   <div class={searchcss}>
     <Input class=" w-96 h-14" on:change={func} bind:value={searchterm} placeholder="🔎 Search A Movie or a Show.."></Input>
   </div>
-
+<div class="mt-20 text-center text-xl font-bold mb-2 ">
+  <h1>Faq/Questions</h1>
+</div>
+<div class="flex justify-center mb-20 ">
+  <Accordion.Root class=" justify-center w-full sm:max-w-[70%]">
+  <Accordion.Item value="item-1">
+    <Accordion.Trigger>Is CineWatch Free?</Accordion.Trigger>
+    <Accordion.Content
+      >Yes. CineWatch is free and will always remain free for the public.</Accordion.Content
+    >
+  </Accordion.Item>
+  <Accordion.Item value="item-2">
+    <Accordion.Trigger>Is CineWatch Ads Free?</Accordion.Trigger>
+    <Accordion.Content>
+      Yes. CineWatch is ads free as we believe in the concept of minimalism.
+    </Accordion.Content>
+  </Accordion.Item>
+  <Accordion.Item value="item-3">
+    <Accordion.Trigger>Is CineWatch Safe/Legal?</Accordion.Trigger>
+    <Accordion.Content>
+      Yes. CineWatch is Safe as well as Legal as we do not store data on our servers we only provide a interface to freely available data on the web.
+    </Accordion.Content>
+  </Accordion.Item>
+</Accordion.Root>
+</div>
   <div class="grid md:grid-cols-5 gap-4 grid-cols-2 ">
       {#each searchd as d}
       {#if searchd.length > 0}
@@ -279,7 +312,7 @@
 <Separator class="" orientation="horizontal" />
 <footer class="h-max bottom-auto top-auto mb-3">
   <div class="flex mt-5 pr-8 justify-between">
-    <div class="ml-2 mr-5">
+    <div class="ml-2 mr-20">
 
     <p class="font-bold">Contact Us</p>
     <br>
@@ -298,10 +331,10 @@
     </div>
     </div>
     
-    <div class=" text-right bottom-0 left-0 float-right">
+    <div class=" text-right bottom-0 left-0 float-right ml-10">
       <h1 class=" font-bold mb-1">*Disclaimer</h1>
-       <p class="text-sm w-min-max mb-2">
-      CineWatch does not host any files, it merely links to 3rd party services. Legal issues should be taken up with the file hosts and providers. CineWatch is not responsible for any media files shown by the video providers.
+       <p class=" text-right text-sm w-min-max mb-2 p-2">
+      CineWatch does not host files; it links to 3rd party services. Legal issues should be addressed with the file hosts/providers. CineWatch is not responsible for media files shown by providers.
     </p>
     </div>
   </div>

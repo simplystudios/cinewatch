@@ -33,12 +33,7 @@
 <slot >
 
   <div class="p-2 mt-2">
-        <div class="flex justify-center">
-          <button on:click={homeback} variant="link" class="text-center text-2xl font-medium">CineWatch</button>
-        </div>
-         <p class=" text-center text-xs">🍿🎬</p>
-    <div>
-    </div>
+        
     <div class="flex justify-center mt-2">
         <Button on:click={toggleMode} variant="link" size="icon">
           {#if $mode === 'light'}
