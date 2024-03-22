@@ -24,7 +24,7 @@
    * @type {string | any[]}
    */
   let searchd = [];
-  let searchcss = " flex items-center justify-center p-40 pt-10 pb-20 mb-1"
+  let searchcss = " flex items-center justify-center p-40 pt-10 pb-20 mb-10"
   let dialogOpen = false;
   let epnum = 0;
   let dialogPlayer = false;
