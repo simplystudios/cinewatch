@@ -121,6 +121,8 @@
   <div class={hid}>
     {#if $mode == "dark"}
       <img src="/logo23.png" alt="" height="100" width="100">
+    {:else if $mode == "light"}
+      <img src="/logo23.png" alt="" height="100" width="100">
     {:else}
       <img src="/logo23black.png" alt="" height="100" width="100">
     {/if}
