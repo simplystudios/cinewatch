@@ -47,7 +47,6 @@
           {/if}
         </Button>
         <Separator class=" w-11/12" orientation="vertical" />
-
         <Button class="" on:click={toggled} variant="icon" size="icon">
           <Settings
                 class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-100 transition-all dark:rotate-0 dark:scale-100"
@@ -55,6 +54,7 @@
         </Button>
         </div>
     <Separator class="my-4" />
+    
     <Dialog.Root bind:open={dialogOpen}>
       <Dialog.Trigger></Dialog.Trigger>
       <Dialog.Content>
@@ -108,6 +108,7 @@
         </Dialog.Header>
       </Dialog.Content>
     </Dialog.Root>
+
 
 
 </slot>

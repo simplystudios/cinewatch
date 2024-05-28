@@ -1,13 +1,15 @@
 <script>
 // @ts-nocheck
-
+  
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
+  import { TriangleAlert } from 'lucide-svelte';
   import Layout from "./+layout.svelte";
   import { Twitter } from 'lucide-svelte';
   import { setMode, resetMode, mode } from "mode-watcher";
   import { Star } from 'lucide-svelte';
   import { Coffee } from 'lucide-svelte';
+  import * as Alert from "$lib/components/ui/alert";
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { Input } from "$lib/components/ui/input";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
@@ -27,7 +29,8 @@
   let searchcss = " flex items-center justify-center p-40 pt-10 pb-20 mb-10"
   let cssp = ""
   let dialogOpen = false;
-  let hid = "flex justify-center pt-40"
+  let hid = "flex justify-center pt-20"
+  let hid2 = "flex justify-center"
   let epnum = 0;
   let dialogPlayer = false;
   let serverd = []
@@ -105,9 +108,10 @@
     try {
       const response = await fetch(`https://imdb-api.new-anshwadhwa.workers.dev/search?query=${searchterm}`);
       const searchData = await response.json();
-      searchcss = "flex items-center justify-center p-10 mb-auto"
+      searchcss = "flex items-center justify-center pb-10 pt-4 mb-auto"
       cssp = "hidden"
-      hid = "flex justify-center"
+      hid = "hidden"
+      hid2 = "hidden"
       searchd = searchData.results;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -117,6 +121,8 @@
 
 
 <Layout/>
+
+
 <div class="max-h-max">
   <div class={hid}>
     {#if $mode == "dark"}
@@ -127,7 +133,7 @@
       <img src="/logo23.png" alt="" height="100" width="100">
     {/if}
   </div>
-  <div class="flex justify-center">
+  <div class={hid2}>
           <button variant="link" class="text-center text-2xl font-medium mt-4">CineWatch</button>
         </div>
     <div>
@@ -138,33 +144,6 @@
 <div>
 
 
-<div class={cssp}>
-  <div class="mt-40 text-center text-xl font-bold mb-2 ">
-    <h1>Faq/Questions</h1>
-  </div>
-<div class="flex justify-center mb-20 ">
-  <Accordion.Root class=" justify-center w-full sm:max-w-[70%]">
-  <Accordion.Item value="item-1">
-    <Accordion.Trigger>Is CineWatch Free?</Accordion.Trigger>
-    <Accordion.Content
-      >Yes. CineWatch is free and will always remain free for the public.</Accordion.Content
-    >
-  </Accordion.Item>
-  <Accordion.Item value="item-2">
-    <Accordion.Trigger>Is CineWatch Ads Free?</Accordion.Trigger>
-    <Accordion.Content>
-      Yes. CineWatch is ads free as we believe in the concept of minimalism.
-    </Accordion.Content>
-  </Accordion.Item>
-  <Accordion.Item value="item-3">
-    <Accordion.Trigger>Is CineWatch Safe/Legal?</Accordion.Trigger>
-    <Accordion.Content>
-      Yes. CineWatch is Safe as well as Legal as we do not store data on our servers we only provide a interface to freely available data on the web.
-    </Accordion.Content>
-  </Accordion.Item>
-</Accordion.Root>
-  </div>
-</div>
 </div>
   <div class="grid md:grid-cols-5 gap-4 grid-cols-2 ">
       {#each searchd as d}
@@ -197,6 +176,13 @@
   <Dialog.Content class="overflow-y-scroll max-h-screen">
     <Dialog.Header class="">
       <iframe title="Movie" width="100%" height="300px" allowfullscreen=true  src={playerurl} frameborder="0"></iframe>
+      <Alert.Root class="mt-4">
+            <TriangleAlert class="" />
+  <Alert.Title>Use Ad Blocker.</Alert.Title>
+  <Alert.Description>
+    We use freely available servers which can contain popup and ads. We Strongy recommend you using a Ad blocker. 
+  </Alert.Description>
+</Alert.Root>
       {#if infoj && infoj.all_seasons}
         <Button on:click={() => playnextep(allseasonsdata.id,allseasonsdata.season_id,epnum+1)} variant="outline">Next Episode</Button>
       <div class="grid-cols-3 p-2">
@@ -251,7 +237,9 @@
         <img src={infoj.image} alt="" height="100px" width="100px" class="mb-2">
         <div class="block">
           <Dialog.Title class=" ml-5">{infoj.title}</Dialog.Title>
-          <Button on:click={() => openplayer(infoj.id,infoj.contentType)} class="m-5 w-max md:w-64 ">Watch</Button>
+          {#if infoj.id && infoj.contentType}
+            <Button on:click={() => openplayer(infoj.id,infoj.contentType)} class="m-5 w-max md:w-64 ">Watch</Button>
+          {/if}
           <Badge class="ml-5" variant="secondary">{infoj.runtime}</Badge>
           <Badge variant="secondary">{infoj.contentRating}</Badge>
           <Badge variant="secondary">{infoj.year}</Badge>
@@ -344,9 +332,9 @@
     </div>
     
     <div class=" text-right bottom-0 left-0 float-right ml-10">
-      <h1 class=" font-bold mb-1">*Disclaimer</h1>
-       <p class=" text-right text-sm w-min-max mb-2 p-2">
-      CineWatch does not host files; it links to 3rd party services. Legal issues should be addressed with the file hosts/providers. CineWatch is not responsible for media files shown by providers.
+      <h1 class=" font-bold mb-1">About</h1>
+       <p class=" text-right bottom-0 left-0 float-right ml-10 ">
+      Made By Ansh Wadhwa
     </p>
     </div>
   </div>

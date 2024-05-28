@@ -1,0 +1,14 @@
+{
+  "name": "CineWatch",
+  "description": "Free And Open Source Web App to search for movies and tv shows",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "logo23.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
