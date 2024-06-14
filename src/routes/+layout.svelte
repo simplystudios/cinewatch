@@ -32,7 +32,7 @@
 </script>
 <slot >
 
-  <div class="p-2 mt-2">
+  <div class="p-2 relative mt-2 w-full">
         
     <div class="flex justify-center mt-2">
         <Button on:click={toggleMode} variant="link" size="icon">
@@ -46,7 +46,10 @@
             />
           {/if}
         </Button>
-        <Separator class=" w-11/12" orientation="vertical" />
+        <Separator class=" w-4/12" orientation="vertical" />
+        <a href="/">Cinewatch</a>
+        <Separator class=" w-4/12" orientation="vertical" />
+
         <Button class="" on:click={toggled} variant="icon" size="icon">
           <Settings
                 class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-100 transition-all dark:rotate-0 dark:scale-100"
@@ -78,6 +81,7 @@
   <Label for="Dark-mode">Dark Mode</Label>
 </div>
 <Separator class="mb-1" orientation="horizontal" />
+
 <Label>Layout</Label>
 <RadioGroup.Root class="mt-2" value="option-one">
   <div class="flex items-center space-x-2">
@@ -112,3 +116,26 @@
 
 
 </slot>
+
+
+<style>
+  ::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3a3a3a; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+</style>

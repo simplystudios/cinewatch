@@ -26,10 +26,14 @@
   "dependencies": {
     "bits-ui": "^0.19.7",
     "clsx": "^2.1.0",
+    "embla-carousel-svelte": "^8.1.4",
     "lucide-svelte": "^0.358.0",
     "mode-watcher": "^0.3.0",
+    "svelte-carousel": "^1.0.25",
+    "svelte-embla": "^0.0.7",
     "svelte-sonner": "^0.3.19",
     "tailwind-merge": "^2.2.1",
-    "tailwind-variants": "^0.2.1"
+    "tailwind-variants": "^0.2.1",
+    "tmdb-js-wrapper": "^1.0.4"
   }
 }
