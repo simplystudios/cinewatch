@@ -3,24 +3,14 @@
 
 import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
-  import { Regex, TriangleAlert } from 'lucide-svelte';
   import Layout from "../+layout.svelte";
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
   import { Twitter } from 'lucide-svelte';
   import { setMode, resetMode, mode } from "mode-watcher";
   import { CalendarDays, Tv } from 'lucide-svelte';
-  import { Coffee } from 'lucide-svelte';
-  import * as Alert from "$lib/components/ui/alert";
-  import Separator from "$lib/components/ui/separator/separator.svelte";
-  import { Input } from "$lib/components/ui/input";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import { Github } from 'lucide-svelte';
   import { Badge } from "$lib/components/ui/badge";
-  import * as Accordion from "$lib/components/ui/accordion";
-  import * as Dialog from "$lib/components/ui/dialog";
-  import { Calendar } from "bits-ui";
-
   let searchterm = "";
   let searchd = [];
   let searchcss = "flex items-center justify-center p-40 pt-10 pb-20 mb-10";
@@ -134,21 +124,22 @@ import { Button } from "$lib/components/ui/button";
 
 </script>
 <Layout/>
-<div class="relative h-[23.25vh]">
+<div class="absolute h-[23.25vh]">
   <img src={pi.cover} class=" opacity-15 object-cover bg-black" alt="">
 </div>
-<div class="absolute z-50 w-auto content-center ">
-  <div class="flex justify-center align-center content-center top-0 ">
-        <img src={pi.image} alt="" height="400px" width="200px" class="mb-2 rounded-sm">
+<div class="relative z-50 w-auto text-center content-center ">
+  <div class="block text-center md:flex justify-center align-center content-center top-0 ">
+        <img src={pi.image} alt="" class=" ml-[40%] mr-[60%] sm:ml-0 sm:mr-0 w-[25vw] h-[40vw] mb-2  rounded-sm">
         <div class="block">
+           <!-- <img src={pi.image} alt="" class="w-[20vw] h-[30vw] mb-2 rounded-sm"> -->
           <h1 class="ml-5 text-3xl font-bold">{pi.title}</h1>
           <Button on:click={() => openplayer(pi.mappings.tmdb, pi.contentType)} class="m-5 w-max md:w-64">Watch</Button>
-          <div class="flex p-3">
+          <div class="flex justify-center p-3">
             <Badge class="ml-2" variant="secondary">{pi.type}</Badge>
           <Badge class="ml-2" variant="secondary">{pi.rating}</Badge>
           <Badge class="ml-2" variant="secondary">{pi.releaseDate}</Badge>
           </div>
-          <div class="ml-5 mt-4 w-72">
+          <div class="ml-5 text-center mt-4 w-auto md:w-72">
         <p>{pi.description}</p>
       </div>
 
@@ -163,7 +154,7 @@ import { Button } from "$lib/components/ui/button";
       {/if}
       <br>
       <br>
-      <div class="flex justify-center align-center">
+      <div class="flex justify-center">
         <div class="flex p-2 overflow-x-scroll w-72">
         {#if pi && pi.actors}
           <p class="mr-2">Cast:</p>
@@ -173,7 +164,7 @@ import { Button } from "$lib/components/ui/button";
         {/if}
       </div>
       </div>
-      <div class="flex p-2 justify-center align-center ">
+      <div class="flex p-2 justify-center w-72 overflow-scroll align-center ">
         {#if pi && pi.genres}
           <p class="mr-2">Genres:</p>
           {#each pi.genres as genre}
@@ -201,14 +192,14 @@ import { Button } from "$lib/components/ui/button";
           </DropdownMenu.Root>
         </div>
         <br>
-<div class=" mr-5 ml-5 overflow-x-scroll">
+<div class=" mr-5 ml-5 ">
           {#each eplist as d}
             <button on:click={() => playnextep(showid, d.season, d.episode, pi.type)}>
-              <div class="flex pb-3 justify-center align-center sm: m-2 flex justify-center align-center ">
+              <div class="flex pb-3 justify-center align-center sm:m-2 sm:flex sm:justify-center align-center ">
                 <Card.Root>
                   <Card.Header>
-                    <div class="block w-[600px] ml-auto mr-auto sm:flex">
-                      <img class="ml-auto mr-auto mb-3 sm: w-52 h-[120px] object-cover rounded" src={d.img.hd} alt="">
+                    <div class="block ml-auto mr-auto sm:w-auto sm:flex">
+                      <img class="ml-auto mr-auto mb-3 sm:w-[220px] h-[120px] object-cover rounded" src={d.img.hd} alt="">
                       <div>
                         <Card.Title>{d.episode}. {d.title}</Card.Title>
                     <div class="flex mt-2 self-center justify-center align-center">

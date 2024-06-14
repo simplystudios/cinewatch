@@ -12,6 +12,8 @@
   import { navigating } from '$app/stores'
   import { Pulse } from 'svelte-loading-spinners';
   import { Coffee } from 'lucide-svelte';
+  import { Plus } from 'lucide-svelte';
+  import { Play } from 'lucide-svelte';
   import * as Alert from "$lib/components/ui/alert";
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { Input } from "$lib/components/ui/input";
@@ -52,6 +54,9 @@
   const ggs = async (data, type) => {
     window.open(`/info?id=${data}?type=${type}`, "_self");
   };
+  const play = async (data) => {
+    window.open(`/watch?id=${data}`, "_self");
+  };
 
   const func = async () => {
     const response = await fetch(`https://consumetmuyi.vercel.app/meta/tmdb/${searchterm}`);
@@ -79,8 +84,9 @@
 
         const dumbVideoResponse = await fetch(`https://api.themoviedb.org/3/movie/${dumb.id}/videos?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
         const dumbVideoJson = await dumbVideoResponse.json();
+        dumbvideos = dumbVideoJson.results;
         if (dumbVideoJson.results) {
-          dumbvideourl = `https://www.youtube.com/embed/${dumbVideoJson.results[5].key}?autoplay=1&controls=0&loop=0&mute=1&modestbranding=1&autohide=1&showinfo=0&rel=0`;
+          dumbvideourl = `https://www.youtube.com/embed/${dumbVideoJson.results[0].key}?autoplay=1&controls=0&playlist=${dumbVideoJson.results[0].key}&loop=1&mute=1&modestbranding=1&autohide=1&showinfo=0&rel=0`;
         }
         console.log(dumbvideourl);
       } catch (error) {
@@ -110,12 +116,12 @@
 </script>
 
 {#if $navigating}
-	<Pulse size="60" color="#FF3E00" unit="px" duration="1s" />
+	<Pulse size="60" color="#FF3E00" unit="px" duration="100s" />
 {/if}
 
 <div class="max-h-max">
    <div class="relative h-[80vw] md:h-[56.25vw] object-cover content-center overflow-hidden">
-        {#if dumbvideos.length>0}
+        {#if dumbvideourl}
     <iframe class="pointer-events-none overflow-hidden w-full h-[56.25vw] brightness-[50%] transform scale-125" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen src={dumbvideourl} alt="">
     </iframe>
     {:else}
@@ -128,20 +134,19 @@
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[65vw] lg:h-[41vw] md:h-[45vw]  sm:h-[45vw] w-full absolute top-[10%] md:top-[30%] ml-0 md:ml-0">
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[65vw] lg:h-[25vw] md:h-[25vw]  sm:h-[50vw] w-full absolute top-[29%] sm:top-[30%] md:top-[40%] lg:top-[55%] ml-0 md:ml-0">
     <div class="text-center sm:ml-6 sm:text-left">
       <div>
         <p class="text-white text-3xl md:text-5xl h-full w-[100%] lg:text-5xl font-bold drop-shadow-xl">{dumb.title}</p>
         <div class="text-center md:text-left">
-          <p class="text-[8px] sm:text-left w-[50%] mt-4 sm:text-[14px]">{dumb.overview}</p>
+          <p class="w-auto lg:w-[50%] text-sm sm:text-left line-clamp-4 mt-4 ">{dumb.overview}</p>
         </div>
-        <p class="text=[10px] text-green-600 mt-2 font-bold ">90% Match</p>
-        <Button class="mt-5 w-36 tex">More Info</Button>
-        <Button variant="secondary" class="mt-5 w-36">Watch Now</Button>
+        <Button on:click={()=>ggs(dumb.id, "Movie")} class="mt-5 w-36 tex">More Info</Button>
+        <Button on:click={()=>play(dumb.id)} variant="secondary" class="mt-5 w-36">Watch Now</Button>
       </div>
     </div>
 </div>
-
+<br>
 
   {#if searchd.length > 0}
     <h2 class="text-2xl font-bold ml-2 mb-5">Search Results</h2>
@@ -171,7 +176,7 @@
               <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md">
                 <div class="flex flex-row items-center gap-3"></div>
                 <h1 class="font-bold mb-1">{d.name}</h1>
-                <p class="text-sm line-clamp-2">{d.overview}</p>
+                <p class="text-sm line-clamp-3">{d.overview}</p>
               </div>
             </div>
           </div>
@@ -211,29 +216,33 @@
   </div>
 
   <div class="px-4 md:px-12 mt-30 space-y-8">
-    <h2 class="text-2xl font-bold ml-1">Netflix Originals</h2>
-    {#if netflixshows.length>0}
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-      {#each netflixshows as d}
-        <div on:click={() => ggs(d.id, "Movie")} class="group">
-          <div class="transform transition duration-500 hover:scale-110">
-            <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
-            <div class="opacity-0 absolute top-0 transition duration-200 z-10 invisible sm:visible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:-translate-x-[1.4vw] group-hover:opacity-100">
-              <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
-              <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md">
-                <div class="flex flex-row items-center gap-3"></div>
-                <h1 class="font-bold mb-1 line-clamp-1">{d.name}</h1>
-                <p class="text-sm line-clamp-2">{d.overview}</p>
-              </div>
+  <h2 class="text-2xl font-bold ml-1">Netflix Originals</h2>
+  {#if netflixshows.length > 0}
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+    {#each netflixshows as d}
+      <div on:click={() => ggs(d.id, "Movie")} class="group relative">  <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
+        <div class="opacity-0 absolute top-0 transition duration-200 z-30 invisible sm:visible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:-translate-x-[1.4vw] group-hover:opacity-100">
+          <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
+          <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md">
+            <div class="flex flex-row items-center gap-3">
+              <button class="bg-white rounded-[100%] w-[30px] h-[30px] text-center">
+                <Play color="black" size="16px" class="ml-[7px]"/>
+              </button>
+              <button class="bg-white rounded-[100%] w-[30px] h-[30px] text-center">
+                <Plus color="black" size="16px" class="ml-[7px]"/>
+              </button>
             </div>
+            <h1 class="font-bold mb-1 line-clamp-1">{d.name}</h1>
+            <p class="text-sm line-clamp-2">{d.overview}</p>
           </div>
         </div>
-      {/each}
-    </div>
-      {:else}
-    <Pulse size="60" color="#FF3E00" unit="px" duration="1s" />
-{/if}
+      </div>
+    {/each}
   </div>
+  {:else}
+  <Pulse size="60" color="#FF3E00" unit="px" duration="1s" />
+  {/if}
+</div>
 
   <footer class="h-max mt-40 bottom-auto top-auto mb-3">
     <Separator orientation="horizontal" />
