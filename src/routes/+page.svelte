@@ -114,18 +114,19 @@
     }
   });
 </script>
+<Layout/>
 
 {#if $navigating}
 	<Pulse size="60" color="#FF3E00" unit="px" duration="100s" />
 {/if}
 
 <div class="max-h-max">
-   <div class="relative h-[80vw] md:h-[56.25vw] object-cover content-center overflow-hidden">
+   <div class="relative h-[90vw] sm:h-[80vw] md:h-[56.25vw] object-cover content-center overflow-hidden">
         {#if dumbvideourl}
     <iframe class="pointer-events-none overflow-hidden w-full h-[56.25vw] brightness-[50%] transform scale-125" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen src={dumbvideourl} alt="">
     </iframe>
     {:else}
-      <img src={`https://image.tmdb.org/t/p/w1280/${dumb.backdrop_path}`} class="pointer-events-none overflow-hidden w-full h-[80vw] md:h-[56.25vw] brightness-[50%] object-cover transform scale-125" alt="">
+      <img src={`https://image.tmdb.org/t/p/w1280/${dumb.backdrop_path}`} class="pointer-events-none overflow-hidden w-full h-[40vw] md:h-[56.25vw] brightness-[50%] object-cover transform scale-125" alt="">
     {/if}
 </div>
 <div style="background: url(data:image/svg+xml;base64,alotofcodehere);
@@ -134,7 +135,7 @@
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[65vw] lg:h-[25vw] md:h-[25vw]  sm:h-[50vw] w-full absolute top-[29%] sm:top-[30%] md:top-[40%] lg:top-[55%] ml-0 md:ml-0">
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[35vw] lg:h-[25vw] md:h-[28vw]  sm:h-[40vw] w-full absolute top-[45%] sm:top-[50%] md:top-[45%] lg:top-[65%] ml-0 md:ml-0">
     <div class="text-center sm:ml-6 sm:text-left">
       <div>
         <p class="text-white text-3xl md:text-5xl h-full w-[100%] lg:text-5xl font-bold drop-shadow-xl">{dumb.title}</p>
@@ -146,8 +147,6 @@
       </div>
     </div>
 </div>
-<br>
-
   {#if searchd.length > 0}
     <h2 class="text-2xl font-bold ml-2 mb-5">Search Results</h2>
     <div class="group grid grid-cols-2 gap-4 md:flex overflow-x-scroll">
@@ -163,7 +162,7 @@
 
 
 
-  <div class="px-4 md:px-12 mt-4 space-y-8">
+  <div class="px-4 md:px-12 mt-32 sm:mt-16 md:mt-12 lg:mt-20 space-y-8">
     <h2 class="text-2xl font-bold ml-1 mt-10">Top Tv Shows</h2>
     {#if popshow.length>0}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">

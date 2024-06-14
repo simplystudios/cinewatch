@@ -32,9 +32,9 @@
 </script>
 <slot >
 
-  <div class="p-2 relative mt-2 w-full">
+  <div class=" relative top-[50px] w-full">
         
-    <div class="flex justify-center mt-2">
+    <div class="flex absolute w-full z-10 justify-center ">
         <Button on:click={toggleMode} variant="link" size="icon">
           {#if $mode === 'light'}
             <Sun
@@ -56,7 +56,6 @@
               />
         </Button>
         </div>
-    <Separator class="my-4" />
     
     <Dialog.Root bind:open={dialogOpen}>
       <Dialog.Trigger></Dialog.Trigger>
