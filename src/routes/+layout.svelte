@@ -6,6 +6,7 @@
     import { Button } from "$lib/components/ui/button";
     import * as RadioGroup from "$lib/components/ui/radio-group";
     import Sun from "lucide-svelte/icons/sun";
+    import Search from "lucide-svelte/icons/search";
     import * as Tabs from "$lib/components/ui/tabs";
     import { Settings } from 'lucide-svelte';
     import * as Alert from "$lib/components/ui/alert";
@@ -17,11 +18,24 @@
     import Moon from "lucide-svelte/icons/moon";
   import { onMount } from "svelte";
     let dialogOpen = false;
+    let searchd=[];
+    let searchterm = "";
 
     const toggled = () =>{
       dialogOpen = true;
       console.log("open")
     }
+    const ggs = async (data, type) => {
+    window.open(`/info?id=${data}?type=${type}`, "_self");
+  };
+
+    const func = async () => {
+    const response = await fetch(`https://consumetmuyi.vercel.app/meta/tmdb/${searchterm}?limit=5`);
+    console.log(searchterm);
+    searchd = await response.json();
+    searchd = searchd.results;
+    console.log(searchd);
+  };
 
     const homeback=() =>{
       
@@ -32,9 +46,9 @@
 </script>
 <slot >
 
-  <div class=" relative top-[50px] w-full">
+  <div class=" absolute top-5 w-full">
         
-    <div class="flex absolute w-full z-10 justify-center ">
+    <div class="flex absolute w-[98%] ml-2 z-10 justify-center ">
         <Button on:click={toggleMode} variant="link" size="icon">
           {#if $mode === 'light'}
             <Sun
@@ -47,7 +61,10 @@
           {/if}
         </Button>
         <Separator class=" w-4/12" orientation="vertical" />
-        <a href="/">Cinewatch</a>
+        <div class="flex border bg-[#0307126c] w-full  text-sm border-[#4D4A4A] rounded-md">
+          <input type="text" bind:value={searchterm} on:change={() => func()} placeholder="Search" class="p-5 w-full sm:w-full h-4  bg-transparent text-sm rounded-md ">
+          <Search size="18px" on:click={() => func()} color="#9AA0AD" class="hidden sm:block mt-[10px] mr-2" />
+        </div>
         <Separator class=" w-4/12" orientation="vertical" />
 
         <Button class="" on:click={toggled} variant="icon" size="icon">
@@ -55,7 +72,22 @@
                 class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-100 transition-all dark:rotate-0 dark:scale-100"
               />
         </Button>
-        </div>
+      </div>
+    {#if searchd.length>0}
+      <div class="z-50 top-[50px] left-[0] sm:left-[35%] w-[100vw] sm:w-[30vw] h-[350px] overflow-scroll relative">
+        {#each searchd as sd}
+          <div onclick={ggs(sd.id,sd.type)} class="flex hover:cursor-pointer border mt-3 p-5 rounded-md border-[#4D4A4A] bg-[#030712c9]">
+            <img class="h-[100px] mr-2" src={sd.image} alt="">
+            <div class="p-5">
+              <h1>{sd.title}</h1>
+              <p>{sd.releaseDate}</p>
+              <p>{sd.type}</p>
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/if}
+
     
     <Dialog.Root bind:open={dialogOpen}>
       <Dialog.Trigger></Dialog.Trigger>

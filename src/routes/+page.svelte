@@ -3,7 +3,7 @@
 
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
-  import { Star } from 'lucide-svelte';
+  import { MoveDown } from 'lucide-svelte';
   import Layout from "./+layout.svelte";
   import { Twitter } from 'lucide-svelte';
   import embla from "svelte-embla";
@@ -43,6 +43,7 @@
   let dialogPlayer = false;
   let serverd = [];
   let infoj = [];
+  let dumbimgs = [];
   let eplist = [];
   let dumb={}
   let allseasonsdata = {};
@@ -82,8 +83,22 @@
         dumb = popJson.results[randomIndex];
         covermage = `https://image.tmdb.org/t/p/w1280/${dumb.backdrop_path}`;
 
-        const dumbVideoResponse = await fetch(`https://api.themoviedb.org/3/movie/${dumb.id}/videos?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
-        const dumbVideoJson = await dumbVideoResponse.json();
+       const dumbVideoResponse = await fetch(`https://api.themoviedb.org/3/movie/${dumb.id}/videos?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
+const dumbVideoJson = await dumbVideoResponse.json();
+
+let dumblogoResponse = await fetch(`https://api.themoviedb.org/3/movie/${dumb.id}/images?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
+let dumblogoJson = await dumblogoResponse.json();
+
+// Filter logos to get only the ones with English language ("en")
+let englishLogos = dumblogoJson.logos.filter(logo => logo.iso_639_1 === "en");
+
+// Select the first English logo
+        let dumbLogo = englishLogos.length > 0 ? englishLogos[0] : null;
+        dumbimgs = dumbLogo.file_path
+
+// Log the result
+console.log(dumbLogo);
+
         dumbvideos = dumbVideoJson.results;
         if (dumbVideoJson.results) {
           dumbvideourl = `https://www.youtube.com/embed/${dumbVideoJson.results[0].key}?autoplay=1&controls=0&playlist=${dumbVideoJson.results[0].key}&loop=1&mute=1&modestbranding=1&autohide=1&showinfo=0&rel=0`;
@@ -120,10 +135,10 @@
 	<Pulse size="60" color="#FF3E00" unit="px" duration="100s" />
 {/if}
 
-<div class="max-h-max">
-   <div class="relative h-[90vw] sm:h-[80vw] md:h-[56.25vw] object-cover content-center overflow-hidden">
+<div class="">
+   <div class="relative h-[85vw] sm:h-[80vw] md:h-[56.25vw] object-cover content-center overflow-hidden">
         {#if dumbvideourl}
-    <iframe class="pointer-events-none overflow-hidden w-full h-[56.25vw] brightness-[50%] transform scale-125" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen src={dumbvideourl} alt="">
+    <iframe class="pointer-events-none overflow-hidden w-full h-full brightness-[50%] transform scale-125" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen src={dumbvideourl} alt="">
     </iframe>
     {:else}
       <img src={`https://image.tmdb.org/t/p/w1280/${dumb.backdrop_path}`} class="pointer-events-none overflow-hidden w-full h-[40vw] md:h-[56.25vw] brightness-[50%] object-cover transform scale-125" alt="">
@@ -135,10 +150,12 @@
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[35vw] lg:h-[25vw] md:h-[28vw]  sm:h-[40vw] w-full absolute top-[45%] sm:top-[50%] md:top-[45%] lg:top-[65%] ml-0 md:ml-0">
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[67vw] lg:h-[26vw] md:h-[40vw]  sm:h-[60vw] w-full absolute top-[28%] sm:top-[40%] md:top-[30%] lg:top-[25%] xl:top-[65%] ml-0 md:ml-0">
     <div class="text-center sm:ml-6 sm:text-left">
       <div>
-        <p class="text-white text-3xl md:text-5xl h-full w-[100%] lg:text-5xl font-bold drop-shadow-xl">{dumb.title}</p>
+        <div class="flex justify-center sm:justify-start">
+           <img src={`https://image.tmdb.org/t/p/w500/${dumbimgs}`} class="h-[100px] max-w-[300px] object-center sm:ml-0 sm:mr-0"/>
+        </div>
         <div class="text-center md:text-left">
           <p class="w-auto lg:w-[50%] text-sm sm:text-left line-clamp-4 mt-4 ">{dumb.overview}</p>
         </div>
@@ -147,22 +164,8 @@
       </div>
     </div>
 </div>
-  {#if searchd.length > 0}
-    <h2 class="text-2xl font-bold ml-2 mb-5">Search Results</h2>
-    <div class="group grid grid-cols-2 gap-4 md:flex overflow-x-scroll">
-      {#each searchd as d}
-        <button on:click={() => ggs(d.id, d.type)}>
-          <div class="w-[190px] h-[340px] ml-2 mr-2">
-            <img class="object-cover h-auto w-auto" src={d.image} alt="">
-          </div>
-        </button>
-      {/each}
-    </div>
-  {/if}
 
-
-
-  <div class="px-4 md:px-12 mt-32 sm:mt-16 md:mt-12 lg:mt-20 space-y-8">
+  <div class="px-4 md:px-12 mt-36 sm:mt-16 md:mt-12 lg:mt-20 space-y-8">
     <h2 class="text-2xl font-bold ml-1 mt-10">Top Tv Shows</h2>
     {#if popshow.length>0}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
@@ -217,12 +220,12 @@
   <div class="px-4 md:px-12 mt-30 space-y-8">
   <h2 class="text-2xl font-bold ml-1">Netflix Originals</h2>
   {#if netflixshows.length > 0}
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
     {#each netflixshows as d}
-      <div on:click={() => ggs(d.id, "Movie")} class="group relative">  <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
+      <div on:click={() => ggs(d.id, "Movie")} class="group relative">  <img class="object-cover w-[210px] h-[320px] md:h-[320px] shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
         <div class="opacity-0 absolute top-0 transition duration-200 z-30 invisible sm:visible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:-translate-x-[1.4vw] group-hover:opacity-100">
-          <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
-          <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md">
+          <img class="object-cover w-[240px] h-[320px] md:h-[320px] shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
+          <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-[240px] transition shadow-md rounded-b-md">
             <div class="flex flex-row items-center gap-3">
               <button class="bg-white rounded-[100%] w-[30px] h-[30px] text-center">
                 <Play color="black" size="16px" class="ml-[7px]"/>

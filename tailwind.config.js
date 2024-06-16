@@ -9,10 +9,24 @@ const config = {
 		container: {
 			center: true,
 			padding: "2rem",
-			screens: {
-				"2xl": "1400px"
-			}
 		},
+		screens: {
+
+      'sm': '440px',
+      // => @media (min-width: 440px) { ... }
+
+      'md': '640px',
+      // => @media (min-width: 648px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    },
 		extend: {
 			colors: {
 				border: "hsl(var(--border) / <alpha-value>)",

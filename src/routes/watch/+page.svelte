@@ -2,47 +2,15 @@
 // @ts-nocheck
 
   import { onMount } from "svelte";
-  import { Button } from "$lib/components/ui/button";
-  import * as Card from "$lib/components/ui/card";
-  import { Regex, TriangleAlert } from 'lucide-svelte';
-  import Layout from "../+layout.svelte";
-  import { page } from '$app/stores';
-  import { Twitter } from 'lucide-svelte';
-  import { setMode, resetMode, mode } from "mode-watcher";
-  import { CalendarDays, Tv } from 'lucide-svelte';
-  import { Coffee } from 'lucide-svelte';
-  import * as Alert from "$lib/components/ui/alert";
-  import Separator from "$lib/components/ui/separator/separator.svelte";
-  import { Input } from "$lib/components/ui/input";
-  import { Github } from 'lucide-svelte';
-  import { Badge } from "$lib/components/ui/badge";
-  import * as Accordion from "$lib/components/ui/accordion";
-  import * as Dialog from "$lib/components/ui/dialog";
-  import { Calendar } from "bits-ui";
 
-    let searchterm = "";
-  let searchd = [];
-  let searchcss = "flex items-center justify-center p-40 pt-10 pb-20 mb-10";
-  let cssp = "";
-  let allseasons = { seasons: [] }; // Initialize with empty seasons array
-  let logoshow;
-  let dialogOpen = false;
-  let hid = "flex justify-center pt-20";
-  let id;
-  let se;
-  let type;
-  let hid2 = "flex justify-center";
-  let epnum = 0;
-  let showid
-  let dialogPlayer = false;
-  let serverd = [];
-  let pi = [];
-  let eplist = [];
-  let allseasonsdata = {};
-  let playerurl;
-  let frameurl
-  let pageurl = '';
-  onMount(async() =>{
+  let id="";
+  let se="";
+  let serverid="super1";
+  let type="";
+  let frameurl="";
+  let pageurl = "";
+
+  onMount(()=>{
     pageurl=window.location.search;
     const regex = /[?&](id|se|type)=([^?&]+)/g;
     const matches = [];
@@ -56,28 +24,44 @@
     id = matches[0]
     se = matches[1]
     type = matches[2]
-    if(type === "TV%20Series"){
+
+    console.log(pageurl);
+  });
+  if(type === "TV%20Series"){
           se = se.replace("-","/");
     console.log(se)
         frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
         console.log(frameurl);
     }
     else{
+      if(serverid === "vidsrc"){
         frameurl = `https://vidsrc.me/embed/movie/${id}`;
         console.log(frameurl);
+      }
+      else if(serverid === "vidsrc2"){
+        frameurl = `https://vidsrc.me/embed/movie/${id}`;
+        console.log(frameurl);
+      }
+      else if(serverid === "vidsrc3"){
+        frameurl = `https://vidsrc.pro/embed/movie/${id}`;
+        console.log(frameurl);
+      }
+      else if(serverid === "super1"){
+        frameurl = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`;
+        console.log(frameurl);
+      }
+      else{
+        frameurl= `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`
+      }
     }
-
-    console.log(pageurl);
-
-  })
 </script>
 <div class="flex p-10">
   <p>Server : </p>
-  <select class="" name="server" id="server">
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="opel">Opel</option>
-    <option value="audi">Audi</option>
+  <select on:select={serverid} class="" name="server" id="server">
+    <option value="volvo">Vidsrc</option>
+    <option value="saab">Super1</option>
+    <option value="opel">Vidsrc2</option>
+    <option value="audi">Vidsrc3</option>
   </select>
 </div>
 <iframe src={frameurl} allowfullscreen width="100%" height="720px" frameborder="0"></iframe>

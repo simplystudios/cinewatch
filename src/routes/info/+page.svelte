@@ -123,13 +123,13 @@ import { Button } from "$lib/components/ui/button";
   };
 
 </script>
-<Layout/>
+<Layout class="z-50" />
 <div class="absolute h-[23.25vh]">
   <img src={pi.cover} class=" opacity-15 object-cover bg-black" alt="">
 </div>
-<div class="relative z-50 w-auto text-center content-center ">
+<div class="mt-32 relative z-10 w-auto text-center content-center ">
   <div class="block text-center md:flex justify-center align-center content-center top-0 ">
-        <img src={pi.image} alt="" class=" ml-[40%] mr-[60%] sm:ml-0 sm:mr-0 w-[25vw] h-[40vw] mb-2  rounded-sm">
+        <img src={pi.image} alt="" class=" z-10 ml-[40%] mr-[60%] sm:ml-0 sm:mr-0 w-[25vw] h-[40vw] mb-2  rounded-sm">
         <div class="block">
            <!-- <img src={pi.image} alt="" class="w-[20vw] h-[30vw] mb-2 rounded-sm"> -->
           <h1 class="ml-5 text-3xl font-bold">{pi.title}</h1>
