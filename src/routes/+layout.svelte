@@ -76,7 +76,7 @@
     {#if searchd.length>0}
       <div class="z-50 top-[50px] left-[0] sm:left-[35%] w-[100vw] sm:w-[30vw] h-[350px] overflow-scroll relative">
         {#each searchd as sd}
-          <div onclick={ggs(sd.id,sd.type)} class="flex hover:cursor-pointer border mt-3 p-5 rounded-md border-[#4D4A4A] bg-[#030712c9]">
+          <div on:click={() => ggs(sd.id,sd.type)} class="flex hover:cursor-pointer border mt-3 p-5 rounded-md border-[#4D4A4A] bg-[#030712c9]">
             <img class="h-[100px] mr-2" src={sd.image} alt="">
             <div class="p-5">
               <h1>{sd.title}</h1>

@@ -124,12 +124,18 @@ import { Button } from "$lib/components/ui/button";
 
 </script>
 <Layout class="z-50" />
-<div class="absolute h-[23.25vh]">
+<div style="background: url(data:image/svg+xml;base64,alotofcodehere);
+    background: -moz-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(70%,#000000));
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
+    background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
+    background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="absolute h-[80vw]">
   <img src={pi.cover} class=" opacity-15 object-cover bg-black" alt="">
 </div>
-<div class="mt-32 relative z-10 w-auto text-center content-center ">
-  <div class="block text-center md:flex justify-center align-center content-center top-0 ">
-        <img src={pi.image} alt="" class=" z-10 ml-[40%] mr-[60%] sm:ml-0 sm:mr-0 w-[25vw] h-[40vw] mb-2  rounded-sm">
+<div class=" relative z-10 w-auto text-center content-center ">
+  <div class="mt-24 block text-center sm:flex justify-center align-center content-center top-0 ">
+        <img src={pi.image} alt="" class=" z-10 ml-[38%] mr-[50%] sm:ml-0 sm:mr-0 sm:w-[25vw] sm:h-[40vw] w-[30vw] h-[50vw] mb-2  rounded-sm">
         <div class="block">
            <!-- <img src={pi.image} alt="" class="w-[20vw] h-[30vw] mb-2 rounded-sm"> -->
           <h1 class="ml-5 text-3xl font-bold">{pi.title}</h1>

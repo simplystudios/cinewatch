@@ -78,7 +78,7 @@
       // Popular movies
       try {
         const popJson = await popResponse.json();
-        popdata = popJson.results.slice(0, 4);
+        popdata = popJson.results.slice(0, 5);
         const randomIndex = Math.floor(Math.random() * popJson.results.length);
         dumb = popJson.results[randomIndex];
         covermage = `https://image.tmdb.org/t/p/w1280/${dumb.backdrop_path}`;
@@ -150,7 +150,7 @@ console.log(dumbLogo);
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[67vw] lg:h-[26vw] md:h-[40vw]  sm:h-[60vw] w-full absolute top-[28%] sm:top-[40%] md:top-[30%] lg:top-[25%] xl:top-[65%] ml-0 md:ml-0">
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[67vw] lg:h-[26vw] md:h-[40vw]  sm:h-[50vw] w-full absolute top-[28%] sm:top-[40%] md:top-[30%] lg:top-[25%] xl:top-[65%] ml-0 md:ml-0">
     <div class="text-center sm:ml-6 sm:text-left">
       <div>
         <div class="flex justify-center sm:justify-start">
@@ -194,11 +194,11 @@ console.log(dumbLogo);
   <div class="px-4 md:px-12 mt-20 space-y-8 z-0 mb-10">
     <h2 class="text-2xl font-bold ml-1 mb-5 z-0">Popular On Cinewatch</h2>
     {#if popdata.length>0}
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+    <div class="grid h-full grid-cols-2 sm:grid-cols-3 md:grid-cols-5 ">
       {#each popdata as d}
         <div on:click={() => ggs(d.id, "Movie")} class="group">
           <div class="transform transition duration-500 hover:scale-110">
-            <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
+            <img class="object-center w-12/12 h-12/12 md:h-12/12 shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
             <div class="opacity-0 absolute top-0 transition duration-200 z-10 invisible sm:visible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:-translate-x-[1.4vw] group-hover:opacity-100">
               <img class="object-cover w-full h-[294px] md:h-[320px] shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
               <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md">
@@ -224,7 +224,7 @@ console.log(dumbLogo);
     {#each netflixshows as d}
       <div on:click={() => ggs(d.id, "Movie")} class="group relative">  <img class="object-cover w-[210px] h-[320px] md:h-[320px] shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
         <div class="opacity-0 absolute top-0 transition duration-200 z-30 invisible sm:visible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:-translate-x-[1.4vw] group-hover:opacity-100">
-          <img class="object-cover w-[240px] h-[320px] md:h-[320px] shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
+          <img class="object-cover w-12/12 h-12/12 md:h-12/12  shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
           <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-[240px] transition shadow-md rounded-b-md">
             <div class="flex flex-row items-center gap-3">
               <button class="bg-white rounded-[100%] w-[30px] h-[30px] text-center">
