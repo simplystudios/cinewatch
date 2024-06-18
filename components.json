@@ -10,5 +10,5 @@
     "components": "$lib/components",
     "utils": "$lib/utils.js"
   },
-  "typescript": true
+  "typescript": false
 }
