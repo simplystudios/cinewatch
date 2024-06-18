@@ -122,45 +122,35 @@ import { Button } from "$lib/components/ui/button";
     }
   };
 
+  
+
 </script>
-<Layout class="z-50" />
+<Layout class="z-50"/>
 <div style="background: url(data:image/svg+xml;base64,alotofcodehere);
     background: -moz-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0)), color-stop(70%,#000000));
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="absolute h-[80vw]">
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="absolute z-0 h-[80vw]">
   <img src={pi.cover} class=" opacity-15 object-cover bg-black" alt="">
 </div>
-<div class=" relative z-10 w-auto text-center content-center ">
-  <div class="mt-24 block text-center sm:flex justify-center align-center content-center top-0 ">
-        <img src={pi.image} alt="" class=" z-10 ml-[38%] mr-[50%] sm:ml-0 sm:mr-0 sm:w-[25vw] sm:h-[40vw] w-[30vw] h-[50vw] mb-2  rounded-sm">
+<div class=" top-20 relative z-0 w-auto text-center flex lg:block ">
+ 
+  <div class="mt-12 block text-center lg:flex justify-center align-center content-center top-0 ">
+        <img src={pi.image} alt="" class=" z-0 ml-[38%] mr-[50%] lg:ml-0 lg:mr-0 sm:w-[25vw] sm:h-[40vw] w-[30vw] h-[50vw] mb-2  rounded-sm">
         <div class="block">
            <!-- <img src={pi.image} alt="" class="w-[20vw] h-[30vw] mb-2 rounded-sm"> -->
           <h1 class="ml-5 text-3xl font-bold">{pi.title}</h1>
           <Button on:click={() => openplayer(pi.mappings.tmdb, pi.contentType)} class="m-5 w-max md:w-64">Watch</Button>
           <div class="flex justify-center p-3">
-            <Badge class="ml-2" variant="secondary">{pi.type}</Badge>
-          <Badge class="ml-2" variant="secondary">{pi.rating}</Badge>
-          <Badge class="ml-2" variant="secondary">{pi.releaseDate}</Badge>
+              <Badge class="ml-2" variant="secondary">{pi.type}</Badge>
+              <Badge class="ml-2" variant="secondary">{pi.rating}</Badge>
+              <Badge class="ml-2" variant="secondary">{pi.releaseDate}</Badge>
           </div>
-          <div class="ml-5 text-center mt-4 w-auto md:w-72">
+          <div class="ml-5 text-center mt-4 w-auto lg:w-72">
         <p>{pi.description}</p>
-      </div>
-
-        </div>
-      </div>
-  <div class="flex justify-center align-center">
-    <div class="text-center">
-      {#if !logoshow === "undefined"}
-          <div class="flex align-center justify-center p-5">
-            <img class="" src={logoshow} width="100px" height="100px" alt="">
-          </div>
-      {/if}
-      <br>
-      <br>
-      <div class="flex justify-center">
+        <div class="flex justify-center">
         <div class="flex p-2 overflow-x-scroll w-72">
         {#if pi && pi.actors}
           <p class="mr-2">Cast:</p>
@@ -178,11 +168,12 @@ import { Button } from "$lib/components/ui/button";
           {/each}
         {/if}
       </div>
+      </div>
+      
 
-    </div>
-  </div>
-<br>
-{#if pi.type === "TV Series"}
+        </div>
+         <div class="content-right h-full overflow-scroll">
+    {#if pi.type === "TV Series"}
 <div class="flex justify-center align-center">
           <DropdownMenu.Root class="outline-1 w-[400px]">
             <DropdownMenu.Trigger class="border border-gray-400 p-2 rounded-sm">Season - {allseasonsdata.season}</DropdownMenu.Trigger>
@@ -224,6 +215,23 @@ import { Button } from "$lib/components/ui/button";
           {/each}
         </div>
       {/if}
+  </div>
+      </div>
+  <div class="flex justify-center align-center">
+    <div class="text-center">
+      {#if !logoshow === "undefined"}
+          <div class="flex align-center justify-center p-5">
+            <img class="" src={logoshow} width="100px" height="100px" alt="">
+          </div>
+      {/if}
+      <br>
+      <br>
+      
+
+    </div>
+  </div>
+<br>
+
 </div>
 
 

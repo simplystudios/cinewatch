@@ -23,6 +23,7 @@ onMount(() => {
   console.log(matches);
   id = matches[0];
   se = matches[1];
+
   type = matches[2];
 
   console.log(pageurl);
@@ -34,7 +35,17 @@ function updateFrameUrl() {
   if (type === "TV%20Series") {
     se = se.replace("-", "/");
     console.log(se);
-    frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
+    if (serverid === "vidsrc") {
+      frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
+    } else if (serverid === "vidsrc2") {
+      frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
+    } else if (serverid === "vidsrc3") {
+      frameurl = `https://vidsrc.pro/embed/tv/${id}/${se}`;
+    } else if (serverid === "super1") {
+      frameurl = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1&s=${se}&e=2`;
+    } else {
+      frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
+    }
   } else {
     if (serverid === "vidsrc") {
       frameurl = `https://vidsrc.me/embed/movie/${id}`;
