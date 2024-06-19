@@ -143,8 +143,10 @@ function handleServerChange(event) {
     <option value="vidsrc3">Vidsrc3</option>
   </select>
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>updateFrameUrl()}>Choose</button>
+  {#if type==="TV%20Series"}
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>changep()}>Next Episode</button>
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>seasonsel()}>Show All Episode</button>
+  {/if}
 </div>
 
 <iframe src={frameurl} allowfullscreen width="100%" height="720px" frameborder="0"></iframe>
