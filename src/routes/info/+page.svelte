@@ -142,7 +142,7 @@ import { Button } from "$lib/components/ui/button";
         <div class="block">
            <!-- <img src={pi.image} alt="" class="w-[20vw] h-[30vw] mb-2 rounded-sm"> -->
           <h1 class="ml-5 text-3xl font-bold">{pi.title}</h1>
-          <Button on:click={() => openplayer(pi.mappings.tmdb, pi.contentType)} class="m-5 w-max md:w-64">Watch</Button>
+          <Button on:click={() => openplayer(pageurl, type)} class="m-5 w-max md:w-64">Watch</Button>
           <div class="flex justify-center p-3">
               <Badge class="ml-2" variant="secondary">{pi.type}</Badge>
               <Badge class="ml-2" variant="secondary">{pi.rating}</Badge>
