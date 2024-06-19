@@ -22,7 +22,7 @@ import { Button } from "$lib/components/ui/button";
 
 let id = "";
 let se = "";
-let serverid = "vidsrc3";
+let serverid = "super1";
 let type = "";
 let frameurl = "";
 let pageurl = "";
@@ -94,8 +94,8 @@ function updateFrameUrl() {
   if (type === "TV%20Series") {
     se = se.replace("-", "/");
     console.log(se);
-    if (serverid === "vidsrc") {
-      frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
+    if (serverid === "smashybro") {
+      frameurl = `https://player.smashy.stream/tv/${id}?s=${seasonNumber}&e=${episodeNumber}`;
     } else if (serverid === "vidsrc2") {
       frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
     } else if (serverid === "vidsrc3") {
@@ -106,8 +106,8 @@ function updateFrameUrl() {
       frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
     }
   } else {
-    if (serverid === "vidsrc") {
-      frameurl = `https://vidsrc.me/embed/movie/${id}`;
+    if (serverid === "smashybro") {
+      frameurl = `https://player.smashy.stream/movie/${id}`;
     } else if (serverid === "vidsrc2") {
       frameurl = `https://vidsrc.me/embed/movie/${id}`;
     } else if (serverid === "vidsrc3") {
@@ -137,9 +137,9 @@ function handleServerChange(event) {
 
 <div class="absolute  bg-slate-700 p-2 rounded-sm">
   <select on:change={handleServerChange} class=" bg-slate-700 text-white" name="server" id="server">
-    <option value="vidsrc">Vidsrc</option>
     <option value="super1">Super1</option>
     <option value="vidsrc2">Vidsrc2</option>
+    <option value="smashybro">Smashybro</option>
     <option value="vidsrc3">Vidsrc3</option>
   </select>
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>updateFrameUrl()}>Choose</button>
