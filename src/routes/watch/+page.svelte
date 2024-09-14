@@ -5,6 +5,7 @@ import { onMount } from "svelte";
 import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
   import { TriangleAlert } from 'lucide-svelte';
+  import { baseurl } from '$lib/ss';
   import { Twitter } from 'lucide-svelte';
   import { setMode, resetMode, mode } from "mode-watcher";
   import { CalendarDays } from 'lucide-svelte';
@@ -60,7 +61,7 @@ onMount(() => {
 });
 
  const seasonsel = async () => {
-    let apib = `https://consumetmuyi.vercel.app/meta/tmdb/info/${id}?type=${type}`;
+    let apib = `${baseurl}/meta/tmdb/info/${id}?type=${type}`;
     dialogPlayer = true;
     let response = await fetch(apib);
     let data = await response.json();
@@ -98,6 +99,9 @@ function updateFrameUrl() {
       frameurl = `https://player.smashy.stream/tv/${id}?s=${seasonNumber}&e=${episodeNumber}`;
     } else if (serverid === "vidsrc2") {
       frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
+    }
+     else if (serverid === "club1") {
+      frameurl = `https://moviesapi.club/tv/${id}-${seasonNumber}-${episodeNumber}`;
     } else if (serverid === "vidsrc3") {
       frameurl = `https://vidsrc.pro/embed/tv/${id}/${se}`;
     } else if (serverid === "super1") {
@@ -112,7 +116,9 @@ function updateFrameUrl() {
       frameurl = `https://vidsrc.me/embed/movie/${id}`;
     } else if (serverid === "vidsrc3") {
       frameurl = `https://vidsrc.pro/embed/movie/${id}`;
-    } else if (serverid === "super1") {
+    }else if (serverid === "club1") {
+      frameurl = `https://moviesapi.club/embed/movie/${id}`;
+    }else if (serverid === "super1") {
       frameurl = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`;
     } else {
       frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
@@ -141,6 +147,7 @@ function handleServerChange(event) {
     <option value="vidsrc2">Vidsrc2</option>
     <option value="smashybro">Smashybro</option>
     <option value="vidsrc3">Vidsrc3</option>
+    <option value="club1">Club1</option>
   </select>
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>updateFrameUrl()}>Choose</button>
   {#if type==="TV%20Series"}

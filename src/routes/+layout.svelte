@@ -2,6 +2,7 @@
     import "../app.pcss";
     import Separator from "$lib/components/ui/separator/separator.svelte";
     import { toggleMode } from "mode-watcher";
+    import { baseurl } from '$lib/ss';
     import * as Dialog from "$lib/components/ui/dialog";
     import { Button } from "$lib/components/ui/button";
     import * as RadioGroup from "$lib/components/ui/radio-group";
@@ -30,7 +31,7 @@
   };
 
     const func = async () => {
-    const response = await fetch(`https://consumetmuyi.vercel.app/meta/tmdb/${searchterm}?limit=5`);
+    const response = await fetch(`${baseurl}/meta/tmdb/${searchterm}?limit=5`);
     console.log(searchterm);
     searchd = await response.json();
     searchd = searchd.results;
@@ -46,10 +47,10 @@
 </script>
 <slot >
 
-  <div class=" absolute top-5 w-full">
+  <div class=" fixed z-10 p-8 backdrop-blur-sm bg-[#0e0d0d71] w-full">
         
-    <div class="flex absolute w-[98%] ml-2 z-10 justify-center ">
-        <Button on:click={toggleMode} variant="link" size="icon">
+    <div class="flex absolute w-[98%] ml-2 justify-center ">
+        <Button on:click={toggleMode} class="" variant="link" size="icon">
           {#if $mode === 'light'}
             <Sun
               class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-foreground"
@@ -61,13 +62,13 @@
           {/if}
         </Button>
         <Separator class=" w-4/12" orientation="vertical" />
-        <div class="flex border bg-[#0307126c] w-full  text-sm border-[#4D4A4A] rounded-md">
+        <div class="flex border bg-[#0307126c] w-[100%]  text-sm border-[#4D4A4A] rounded-md">
           <input type="text" bind:value={searchterm} on:change={() => func()} placeholder="Search" class="p-5 w-full sm:w-full h-4  bg-transparent text-sm rounded-md ">
           <Search size="18px" on:click={() => func()} color="#9AA0AD" class="hidden sm:block mt-[10px] mr-2" />
         </div>
         <Separator class=" w-4/12" orientation="vertical" />
 
-        <Button class="" on:click={toggled} variant="icon" size="icon">
+        <Button class="mr-16" on:click={toggled} variant="icon" size="icon">
           <Settings
                 class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-100 transition-all dark:rotate-0 dark:scale-100"
               />

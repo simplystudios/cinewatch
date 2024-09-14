@@ -1,6 +1,6 @@
 <script lang="ts">
   // @ts-nocheck
-
+  import { baseurl } from '$lib/ss';
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
   import { MoveDown } from 'lucide-svelte';
@@ -60,7 +60,7 @@
   };
 
   const func = async () => {
-    const response = await fetch(`https://consumetmuyi.vercel.app/meta/tmdb/${searchterm}`);
+    const response = await fetch(`${baseurl}/meta/tmdb/${searchterm}`);
     searchd = await response.json();
     searchd = searchd.results;
     searchcss = "flex items-center justify-center pb-10 pt-4 mb-auto";
@@ -150,7 +150,7 @@ console.log(dumbLogo);
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="h-[67vw] lg:h-[26vw] md:h-[40vw]  sm:h-[50vw] w-full absolute top-[28%] sm:top-[40%] md:top-[30%] lg:top-[25%] xl:top-[65%] ml-0 md:ml-0">
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="z-0 h-[67vw] lg:h-[30vw] md:h-[37vw]  sm:h-[50vw] w-full absolute top-[28%] sm:top-[40%] md:top-[28.8%] lg:top-[54%] xl:top-[65%] ml-0 md:ml-0">
     <div class="text-center sm:ml-6 sm:text-left">
       <div>
         <div class="flex justify-center sm:justify-start">
@@ -165,8 +165,8 @@ console.log(dumbLogo);
     </div>
 </div>
 
-  <div class="px-4 md:px-12 mt-36 sm:mt-16 md:mt-12 lg:mt-20 space-y-8">
-    <h2 class="text-2xl font-bold ml-1 mt-10">Top Tv Shows</h2>
+  <div class="px-4 md:px-12 mt-20 sm:mt-30 md:mt-16 lg:mt-16 space-y-8">
+    <h2 class="text-2xl z-10 relative font-bold ml-1 mt-10">Top Tv Shows</h2>
     {#if popshow.length>0}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
       {#each popshow as d}
