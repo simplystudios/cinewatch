@@ -29,6 +29,7 @@
   let searchd=[];
   let searchcss = "flex items-center justify-center p-10 pt-10 pb-10 mb-10";
   let cssp = "";
+  let topm = []
   let allseasons = { seasons: [] }; // Initialize with empty seasons array
   let logoshow;
   let popdata=[];
@@ -69,16 +70,20 @@
 
   onMount(async () => {
     try {
-      const [popResponse, tvResponse, netflixResponse] = await Promise.all([
+      const [popResponse, tvResponse, topmovies] = await Promise.all([
         fetch("https://api.themoviedb.org/3/movie/popular?api_key=07d7cff6553ffe45f88ee4c89a93a12c"),
         fetch("https://api.themoviedb.org/3/tv/top_rated?api_key=07d7cff6553ffe45f88ee4c89a93a12c&limit=4"),
-        fetch("https://api.themoviedb.org/3/discover/tv?api_key=07d7cff6553ffe45f88ee4c89a93a12c&with_networks=213")
+        // fetch("https://api.themoviedb.org/3/discover/tv?api_key=07d7cff6553ffe45f88ee4c89a93a12c&with_networks=213"),
+        fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=07d7cff6553ffe45f88ee4c89a93a12c"),
       ]);
 
       // Popular movies
       try {
         const popJson = await popResponse.json();
         popdata = popJson.results.slice(0, 5);
+        // const netJson = await netflixResponse.json()
+        // netflixshows = netJson.results.slice(0,5);
+
         const randomIndex = Math.floor(Math.random() * popJson.results.length);
         dumb = popJson.results[randomIndex];
         covermage = `https://image.tmdb.org/t/p/w1280/${dumb.backdrop_path}`;
@@ -118,10 +123,10 @@ console.log(dumbLogo);
 
       // Netflix Originals
       try {
-        const netflixJson = await netflixResponse.json();
-        netflixshows = netflixJson.results;
+        const topmJson = await topmovies.json();
+        topm = topmJson.results;
       } catch (error) {
-        console.error("Error fetching Netflix Originals:", error);
+        console.error("Error fetching Top Movies:", error);
       }
 
     } catch (error) {
@@ -157,16 +162,17 @@ console.log(dumbLogo);
            <img src={`https://image.tmdb.org/t/p/w500/${dumbimgs}`} class="h-[100px] max-w-[300px] object-center sm:ml-0 sm:mr-0"/>
         </div>
         <div class="text-center md:text-left">
-          <p class="w-auto lg:w-[50%] text-sm sm:text-left line-clamp-4 mt-4 ">{dumb.overview}</p>
+          <p class="w-auto lg:w-[50%]lg:line-clamp-4 text-sm sm:text-left line-clamp-2 mt-4 ">{dumb.overview}</p>
         </div>
         <Button on:click={()=>ggs(dumb.id, "Movie")} class="mt-5 w-36 tex">More Info</Button>
         <Button on:click={()=>play(dumb.id)} variant="secondary" class="mt-5 w-36">Watch Now</Button>
       </div>
     </div>
+    <br>
 </div>
 
   <div class="px-4 md:px-12 mt-20 sm:mt-30 md:mt-16 lg:mt-16 space-y-8">
-    <h2 class="text-2xl z-10 relative font-bold ml-1 mt-10">Top Tv Shows</h2>
+    <h2 class="text-xl z-10 relative font-bold ml-1 mt-10">Top Tv Shows</h2>
     {#if popshow.length>0}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
       {#each popshow as d}
@@ -218,10 +224,10 @@ console.log(dumbLogo);
   </div>
 
   <div class="px-4 md:px-12 mt-30 space-y-8">
-  <h2 class="text-2xl font-bold ml-1">Netflix Originals</h2>
-  {#if netflixshows.length > 0}
+  <h2 class="text-2xl font-bold ml-1">Top Movies</h2>
+  {#if topm.length > 0}
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-    {#each netflixshows as d}
+    {#each topm as d}
       <div on:click={() => ggs(d.id, "TV Series")} class="group relative">  <img class="object-cover w-[210px] h-[320px] md:h-[320px] shadow-xl cursor-pointer transition duration group-hover:opacity-90 sm:group-hover:opacity-0 delay-100" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
         <div class="opacity-0 absolute top-0 transition duration-200 z-30 invisible sm:visible delay-300 w-full scale-0 group-hover:scale-110 group-hover:-translate-y-[6vw] group-hover:-translate-x-[1.4vw] group-hover:opacity-100">
           <img class="object-cover w-12/12 h-12/12 md:h-12/12  shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
@@ -234,7 +240,7 @@ console.log(dumbLogo);
                 <Plus color="black" size="16px" class="ml-[7px]"/>
               </button>
             </div>
-            <h1 class="font-bold mb-1 line-clamp-1">{d.name}</h1>
+            <h1 class="font-bold mb-1 line-clamp-1">{d.title}</h1>
             <p class="text-sm line-clamp-2">{d.overview}</p>
           </div>
         </div>
