@@ -196,6 +196,7 @@ console.log(dumbLogo);
   {/if}
   </div>
 
+  <!-- populr -->
 
   <div class="px-4 md:px-12 mt-20 space-y-8 z-0 mb-10">
     <h2 class="text-2xl font-bold ml-1 mb-5 z-0">Popular On Cinewatch</h2>
