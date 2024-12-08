@@ -155,7 +155,7 @@ console.log(dumbLogo);
     background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -o-linear-gradient(top,   rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
     background: -ms-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);
-    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="z-0 h-[67vw] lg:h-[30vw] md:h-[37vw]  sm:h-[50vw] w-full absolute top-[28%] sm:top-[40%] md:top-[28.8%] lg:top-[54%] xl:top-[65%] ml-0 md:ml-0">
+    background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%, rgba(18,18,18,255) 70%);"  class="z-0 h-[67vw] lg:h-[30vw] md:h-[38.5vw]  sm:h-[50vw] w-full absolute top-[28%] sm:top-[40%] md:top-[28.8%] lg:top-[54%] xl:top-[65%] ml-0 md:ml-0">
     <div class="text-center sm:ml-6 sm:text-left">
       <div>
         <div class="flex justify-center sm:justify-start">
@@ -168,11 +168,12 @@ console.log(dumbLogo);
         <Button on:click={()=>play(dumb.id)} variant="secondary" class="mt-5 w-36">Watch Now</Button>
       </div>
     </div>
-    <br>
 </div>
+<br class="bar2">
+<br class="bar2">
 
-  <div class="px-4 md:px-12 mt-20 sm:mt-30 md:mt-16 lg:mt-16 space-y-8">
-    <h2 class="text-xl z-10 relative font-bold ml-1 mt-10">Top Tv Shows</h2>
+  <div class="px-4 md:px-12 mt-15 sm:mt-30 md:mt-8 lg:mt-5 space-y-8">
+    <h2 class="text-xl z-10 relative font-bold ml-1 sm:mt-20 mt-5">Top Tv Shows</h2>
     {#if popshow.length>0}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
       {#each popshow as d}
@@ -234,12 +235,12 @@ console.log(dumbLogo);
           <img class="object-cover w-12/12 h-12/12 md:h-12/12  shadow-xl cursor-pointer transition rounded-t-md duration" src={`https://image.tmdb.org/t/p/w500/${d.poster_path}`} alt="">
           <div class="z-10 bg-zinc-800 p-2 lg:p-4 absolute w-full transition shadow-md rounded-b-md">
             <div class="flex flex-row items-center gap-3">
-              <button class="bg-white rounded-[100%] w-[30px] h-[30px] text-center">
+              <!-- <button class="bg-white rounded-[100%] w-[30px] h-[30px] text-center">
                 <Play color="black" size="16px" class="ml-[7px]"/>
               </button>
               <button class="bg-white rounded-[100%] w-[30px] h-[30px] text-center">
                 <Plus color="black" size="16px" class="ml-[7px]"/>
-              </button>
+              </button> -->
             </div>
             <h1 class="font-bold mb-1 line-clamp-1">{d.title}</h1>
             <p class="text-sm line-clamp-2">{d.overview}</p>
@@ -285,6 +286,9 @@ console.log(dumbLogo);
     height: 4px;
   }
 
+  .bar2{
+    display: none;
+  }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
@@ -299,6 +303,7 @@ console.log(dumbLogo);
 
   .content-wrapper:hover .overlay-content {
     display: block;
+
   }
 
   .overlay-content {
@@ -316,5 +321,12 @@ console.log(dumbLogo);
   .embla__slide {
     flex: 0 0 100%;
     min-width: 0;
+  }
+
+  @media (max-width:600px){
+    .bar2{
+      display: block;
+      height: 200px;
+    }
   }
 </style>

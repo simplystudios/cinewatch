@@ -95,7 +95,7 @@ function updateFrameUrl() {
   if (type === "TV%20Series") {
     se = se.replace("-", "/");
     console.log(se);
-    if (serverid === "smashybro") {
+    if (serverid === "primewire") {
       frameurl = `https://player.smashy.stream/tv/${id}?s=${seasonNumber}&e=${episodeNumber}`;
     } else if (serverid === "vidsrc2") {
       frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
@@ -106,7 +106,10 @@ function updateFrameUrl() {
       frameurl = `https://vidsrc.pro/embed/tv/${id}/${se}`;
     } else if (serverid === "super1") {
       frameurl = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`;
-    } else {
+    } else if (serverid == "motion") {
+      frameurl= `https://vidjoy.pro/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
+    }
+    else {
       frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
     }
   } else {
@@ -120,7 +123,10 @@ function updateFrameUrl() {
       frameurl = `https://moviesapi.club/embed/movie/${id}`;
     }else if (serverid === "super1") {
       frameurl = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`;
-    } else {
+    }  else if (serverid == "motion") {
+      frameurl= `https://vidjoy.pro/embed/movie/${id}`
+    }
+    else {
       frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
     }
   }
@@ -148,6 +154,7 @@ function handleServerChange(event) {
     <option value="smashybro">Smashybro</option>
     <option value="vidsrc3">Vidsrc3</option>
     <option value="club1">Club1</option>
+    <option value="motion">Motion - no ads</option>
   </select>
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>updateFrameUrl()}>Choose</button>
   {#if type==="TV%20Series"}
