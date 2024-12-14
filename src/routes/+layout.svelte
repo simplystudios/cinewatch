@@ -1,173 +1,160 @@
 <script>
-    import "../app.pcss";
-    import Separator from "$lib/components/ui/separator/separator.svelte";
-    import { toggleMode } from "mode-watcher";
-    import { baseurl } from '$lib/ss';
-    import * as Dialog from "$lib/components/ui/dialog";
-    import { Button } from "$lib/components/ui/button";
-    import * as RadioGroup from "$lib/components/ui/radio-group";
-    import Sun from "lucide-svelte/icons/sun";
-    import Search from "lucide-svelte/icons/search";
-    import * as Tabs from "$lib/components/ui/tabs";
-    import { Settings } from 'lucide-svelte';
-    import * as Alert from "$lib/components/ui/alert";
-    import { Label } from "$lib/components/ui/label";
-    import { toast } from "svelte-sonner";
-    import { setMode, resetMode, mode } from "mode-watcher";
-    import { Switch } from "$lib/components/ui/switch";
-    import { TriangleAlert } from 'lucide-svelte';
-    import Moon from "lucide-svelte/icons/moon";
+  import "../app.pcss";
+  import Separator from "$lib/components/ui/separator/separator.svelte";
+  import { toggleMode } from "mode-watcher";
+  import { tmdbapikey } from '$lib/ss';
+  import * as Dialog from "$lib/components/ui/dialog";
+  import { Button } from "$lib/components/ui/button";
+  import * as RadioGroup from "$lib/components/ui/radio-group";
+  import Sun from "lucide-svelte/icons/sun";
+  import { X } from 'lucide-svelte';
+  import Search from "lucide-svelte/icons/search";
+  import * as Tabs from "$lib/components/ui/tabs";
+  import { Settings } from "lucide-svelte";
+  import * as Alert from "$lib/components/ui/alert";
+  import { Label } from "$lib/components/ui/label";
+  import { toast } from "svelte-sonner";
+  import { setMode, resetMode, mode } from "mode-watcher";
+  import { Switch } from "$lib/components/ui/switch";
+  import { TriangleAlert } from "lucide-svelte";
+  import Moon from "lucide-svelte/icons/moon";
+  import { writable } from "svelte/store";
   import { onMount } from "svelte";
-    let dialogOpen = false;
-    let searchd=[];
-    let searchterm = "";
 
-    const toggled = () =>{
-      dialogOpen = true;
-      console.log("open")
-    }
-    const ggs = async (data, type) => {
-    window.open(`/info?id=${data}?type=${type}`, "_self");
+  // Search functionality
+  let searchd = [];
+  let searchterm = "";
+  let dialogOpen = false;
+
+  const ggs = async (id, type) => {
+    window.open(`/info?id=${id}&type=${type}`, "_self");
   };
 
-    const func = async () => {
-    const response = await fetch(`${baseurl}/meta/tmdb/${searchterm}?limit=5`);
-    console.log(searchterm);
-    searchd = await response.json();
-    searchd = searchd.results;
-    console.log(searchd);
+  const func = async () => {
+    if (!searchterm.trim()) return;
+
+    try {
+      const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbapikey}&query=${encodeURIComponent(searchterm)}`);
+      const results = (await response.json()).results || [];
+
+      // Filter results to only include movies and TV shows
+      searchd = results.filter(item => item.media_type === "movie" || item.media_type === "tv");
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+      toast.error("Failed to fetch search results. Please try again.");
+    }
   };
 
-    const homeback=() =>{
-      
-    }
-    // onMount(()=>{
+  // Command Palette functionality
+  const commands = [
+    { label: "Home", action: () => (window.location.href = "/") },
+    { label: "About Us", action: () => (window.location.href = "/about") },
+    { label: "Contact", action: () => (window.location.href = "/contact") },
+  ];
 
-    // })
+  let searchQuery = "";
+  let filteredCommands = [];
+  const isPaletteOpen = writable(false);
+
+  const openPalette = () => isPaletteOpen.set(true);
+  const closePalette = () => isPaletteOpen.set(false);
+
+  const filterCommands = () => {
+    filteredCommands = commands.filter((cmd) =>
+      cmd.label.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  };
+
+  // Keyboard shortcuts
+  onMount(() => {
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "p") {
+        e.preventDefault();
+        openPalette();
+      }
+      if (e.key === "Escape") {
+        closePalette();
+      }
+    });
+  });
 </script>
-<slot >
 
-  <div class=" fixed z-10 p-8 backdrop-blur-sm bg-[#0e0d0d71] w-full">
-        
-    <div class="flex absolute w-[98%] ml-2 justify-center ">
-        <Button on:click={toggleMode} class="" variant="link" size="icon">
-          {#if $mode === 'light'}
-            <Sun
-              class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-foreground"
-            />
-          {:else}
-            <Moon
-              class="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-foreground"
-            />
-          {/if}
-        </Button>
-        <Separator class=" w-4/12" orientation="vertical" />
-        <div class="flex border bg-[#0307126c] w-[100%]  text-sm border-[#4D4A4A] rounded-md">
-          <input type="text" bind:value={searchterm} on:change={() => func()} placeholder="Search" class="p-5 w-full sm:w-full h-4  bg-transparent text-sm rounded-md ">
-          <Search size="18px" on:click={() => func()} color="#9AA0AD" class="hidden sm:block mt-[10px] mr-2" />
+<slot>
+  <!-- Top Search Bar -->
+  <div class="fixed z-10 p-8 backdrop-blur-sm bg-[#0e0d0d71] w-full h-20">
+    <div class="flex absolute w-[90%]">
+      <Button on:click={toggleMode} class="" variant="link" size="icon">
+        {#if $mode === "light"}
+          <Sun class="h-[1.2rem] w-[1.2rem] text-foreground" />
+        {:else}
+          <Moon class="h-[1.2rem] w-[1.2rem] text-foreground" />
+        {/if}
+      </Button>
+      <Separator class="mr-0" orientation="vertical" />
+      <div class="flex border bg-[#0307126c] w-full text-sm border-[#4D4A4A] rounded-md">
+        <p on:click={openPalette} class="p-2 w-full bg-transparent text-sm rounded-md">Search with Ctrl + P</p>
+        <Search size="18px" on:click={openPalette} color="#9AA0AD" class="hidden sm:block mt-[10px] mr-2" />
+      </div>
+      <Separator class="" orientation="vertical" />
+      <Button on:click={() => (dialogOpen = true)} variant="icon" size="icon">
+        <Settings class="h-[1.2rem] w-[1.2rem]" />
+      </Button>
+    </div>
+  </div>
+
+  {#if $isPaletteOpen}
+    <div class="absolute inset-0 bg-black bg-opacity-60">
+      <div class="fixed top-1/2 backdrop-blur-sm bg-[#0e0d0d71] w-96 z-20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black rounded-lg shadow-lg max-h-72 overflow-y-auto p-4">
+        <div on:click={() => closePalette()} class="flex space-x-full mb-2">
+          <p style="font-size: 12px;">Press Esc to close</p>
+          <X style="font-size: 12px; cursor:pointer; margin-left:65%; height:15px" />
         </div>
-        <Separator class=" w-4/12" orientation="vertical" />
-
-        <Button class="mr-16" on:click={toggled} variant="icon" size="icon">
-          <Settings
-                class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-100 transition-all dark:rotate-0 dark:scale-100"
-              />
-        </Button>
-      </div>
-    {#if searchd.length>0}
-      <div class="z-50 top-[50px] left-[0] sm:left-[35%] w-[100vw] sm:w-[30vw] h-[350px] overflow-scroll relative">
-        {#each searchd as sd}
-          <div on:click={() => ggs(sd.id,sd.type)} class="flex hover:cursor-pointer border mt-3 p-5 rounded-md border-[#4D4A4A] bg-[#030712c9]">
-            <img class="h-[100px] mr-2" src={sd.image} alt="">
-            <div class="p-5">
-              <h1>{sd.title}</h1>
-              <p>{sd.releaseDate}</p>
-              <p>{sd.type}</p>
-            </div>
+        <input
+          type="text"
+          bind:value={searchterm}
+          on:change={func}
+          placeholder="Search a Movie/TV..."
+          class="w-full p-2 mb-4 border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        {#if searchd.length > 0}
+          <div>
+            {#each searchd as sd}
+              <div
+                on:click={() => ggs(sd.id, sd.media_type)}
+                class="flex hover:cursor-pointer border mt-3 p-5 rounded-md border-[#4D4A4A] bg-[#030712c9]"
+              >
+                <img
+                  class="h-[100px] mr-2"
+                  src={sd.poster_path ? `https://image.tmdb.org/t/p/w1280/${sd.poster_path}` : '/fallback-image.png'}
+                  alt={sd.title || sd.name}
+                />
+                <div class="p-5">
+                  <h1>{sd.title || sd.name}</h1>
+                  <p>{sd.release_date || sd.first_air_date}</p>
+                  <p>{sd.media_type}</p>
+                </div>
+              </div>
+            {/each}
           </div>
-        {/each}
+        {/if}
       </div>
-    {/if}
-
-    
-    <Dialog.Root bind:open={dialogOpen}>
-      <Dialog.Trigger></Dialog.Trigger>
-      <Dialog.Content>
-        <Dialog.Header>
-          <h1 class=" font-bold">Settings</h1>
-          <Tabs.Root value="account" class=" w-auto">
-  <Tabs.List class=" w-full">
-    <Tabs.Trigger class="w-auto" value="account">Simple</Tabs.Trigger>
-    <Tabs.Trigger class="w-auto" value="password">About</Tabs.Trigger>
-  </Tabs.List>
-  <Alert.Root class="mt-4">
-            <TriangleAlert class="" />
-  <Alert.Title>Use Ad Blocker.</Alert.Title>
-  <Alert.Description>
-    We use freely available servers which can contain popup and ads. We Strongy recommend you using a Ad blocker. 
-  </Alert.Description>
-</Alert.Root>
-  <Tabs.Content value="account">
-    <div class="flex items-center space-x-2 mt-2 mb-3">
-  <Switch id="Dark-mode" />
-  <Label for="Dark-mode">Dark Mode</Label>
-</div>
-<Separator class="mb-1" orientation="horizontal" />
-
-<Label>Layout</Label>
-<RadioGroup.Root class="mt-2" value="option-one">
-  <div class="flex items-center space-x-2">
-    <RadioGroup.Item value="option-one" id="option-one" />
-    <Label for="option-one">Grid</Label>
-  </div>
-  <div class="flex items-center space-x-2">
-    <RadioGroup.Item value="option-two" id="option-two" />
-    <Label for="option-two">List</Label>
-  </div>
-</RadioGroup.Root>
-<br>
-<Separator orientation="horizontal" />
-<br>
-<Label>Made By Ansh Wadhwa</Label>
-  </Tabs.Content>
-  <Tabs.Content value="password">
-    <div class="items-center space-x-2">
-  <Label class="mb-2">Disclaimer</Label>
-  <p>CineWatch does not host any files, it merely links to 3rd party services. Legal issues should be taken up with the file hosts and providers. CineWatch is not responsible for any media files shown by the video providers.</p>
-  <br>
-  <Separator orientation="horizontal" />
-  <br>
-  <Label>Made By Ansh Wadhwa</Label>
-</div>
-  </Tabs.Content>
-</Tabs.Root>
-        </Dialog.Header>
-      </Dialog.Content>
-    </Dialog.Root>
-
-
-
+    </div>
+  {/if}
 </slot>
 
 
 <style>
+  
   ::-webkit-scrollbar {
-  width: 6px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #3a3a3a; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 </style>

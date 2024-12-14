@@ -30,11 +30,54 @@ let pageurl = "";
 let showid = "";
 let dialogPlayer = false;
 let episodeNumber=1;
- let allseasons = { seasons: [] }; // Initialize with empty seasons array
+ let allseasons ={}; // Initialize with empty seasons array
 let eplist = [];
 let infoj = [];
 let seasonNumber = 1;
-let allseasonsdata = {};
+let allseasonsdata = [];
+
+function updateFrameUrl() {
+  if (type === "Tv%20Series") {
+    se = se.replace("-", "/");
+    console.log(se);
+    if (serverid === "primewire") {
+      frameurl = `https://player.smashy.stream/tv/${id}?s=${seasonNumber}&e=${episodeNumber}`;
+    } else if (serverid === "vidsrc2") {
+      frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
+    }
+     else if (serverid === "club1") {
+      frameurl = `https://moviesapi.club/tv/${id}-${seasonNumber}-${episodeNumber}`;
+    } else if (serverid === "vidsrc3") {
+      frameurl = `https://vidsrc.pro/embed/tv/${id}/${se}`;
+    } else if (serverid === "super1") {
+      frameurl = `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`;
+    } else if (serverid == "motion") {
+      frameurl= `https://vidjoy.pro/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
+    }
+    else {
+      frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
+    }
+  } else {
+    if (serverid === "primewire") {
+      frameurl = `https://player.smashy.stream/movie/${id}`;
+    } else if (serverid === "vidsrc2") {
+      frameurl = `https://vidsrc.me/embed/movie/${id}`;
+    } else if (serverid === "vidsrc3") {
+      frameurl = `https://vidsrc.pro/embed/movie/${id}`;
+    }else if (serverid === "club1") {
+      frameurl = `https://moviesapi.club/embed/movie/${id}`;
+    }else if (serverid === "super1") {
+      frameurl = `https://multiembed.mov/?video_id=${id}&tmdb=1`;
+    }  else if (serverid == "motion") {
+      frameurl= `https://vidjoy.pro/embed/movie/${id}`
+    }
+    else {
+      frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
+    }
+  }
+  console.log(frameurl);
+}
+
 
 onMount(() => {
   pageurl = window.location.search;
@@ -56,24 +99,20 @@ onMount(() => {
   type = matches[2];
 
   console.log(pageurl);
-
   updateFrameUrl();
+  console.log(serverid);
 });
 
  const seasonsel = async () => {
-    let apib = `${baseurl}/meta/tmdb/info/${id}?type=${type}`;
+    let apib = `https://api.themoviedb.org/3/tv/${id}?api_key=07d7cff6553ffe45f88ee4c89a93a12c`;
     dialogPlayer = true;
     let response = await fetch(apib);
     let data = await response.json();
-    console.log(data);
     allseasons = data;
-    showid = id;
-    console.log(allseasons)
-    console.log(allseasons.seasons)
-    console.log(allseasons.seasons[0])
-    allseasonsdata = allseasons.seasons[0];
-    eplist = allseasonsdata.episodes;
-    console.log(eplist)
+       showid = data.id;
+       console.log(allseasons)
+       seasonchange(1)
+       
   };
 
 
@@ -91,54 +130,16 @@ function changep(){
   window.open(`/watch?id=${id}?se=${seasonNumber}-${episodeNumber}?type=${type}`,"_self")
 }
 
-function updateFrameUrl() {
-  if (type === "TV%20Series") {
-    se = se.replace("-", "/");
-    console.log(se);
-    if (serverid === "primewire") {
-      frameurl = `https://player.smashy.stream/tv/${id}?s=${seasonNumber}&e=${episodeNumber}`;
-    } else if (serverid === "vidsrc2") {
-      frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
-    }
-     else if (serverid === "club1") {
-      frameurl = `https://moviesapi.club/tv/${id}-${seasonNumber}-${episodeNumber}`;
-    } else if (serverid === "vidsrc3") {
-      frameurl = `https://vidsrc.pro/embed/tv/${id}/${se}`;
-    } else if (serverid === "super1") {
-      frameurl = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`;
-    } else if (serverid == "motion") {
-      frameurl= `https://vidjoy.pro/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
-    }
-    else {
-      frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
-    }
-  } else {
-    if (serverid === "smashybro") {
-      frameurl = `https://player.smashy.stream/movie/${id}`;
-    } else if (serverid === "vidsrc2") {
-      frameurl = `https://vidsrc.me/embed/movie/${id}`;
-    } else if (serverid === "vidsrc3") {
-      frameurl = `https://vidsrc.pro/embed/movie/${id}`;
-    }else if (serverid === "club1") {
-      frameurl = `https://moviesapi.club/embed/movie/${id}`;
-    }else if (serverid === "super1") {
-      frameurl = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`;
-    }  else if (serverid == "motion") {
-      frameurl= `https://vidjoy.pro/embed/movie/${id}`
-    }
-    else {
-      frameurl = `https://lh6.googleusercontent.com/Bu-pRqU_tWZV7O3rJ5nV1P6NjqFnnAs8kVLC5VGz_Kf7ws0nDUXoGTc7pP87tyUCfu8VyXi0YviIm7CxAISDr2lJSwWwXQxxz98qxVfMcKTJfLPqbcfhn-QEeOowjrlwX1LYDFJN`;
-    }
-  }
-  console.log(frameurl);
-}
 
-  const seasonchange = (no) => {
-    let seasono = no - 1;
-    console.log(seasono)
-    allseasonsdata = allseasons.seasons[seasono];
+  const seasonchange = async(no) => {
+   let seasono = no;
+    console.log(seasono);
+    const ap = `https://api.themoviedb.org/3/tv/${id}/season/${seasono}?api_key=07d7cff6553ffe45f88ee4c89a93a12c`
+    const resp = await fetch(ap)
+    allseasonsdata= await resp.json()
     console.log(allseasonsdata);
     eplist = allseasonsdata.episodes;
+    console.log(eplist)
   };
 
 
@@ -151,13 +152,13 @@ function handleServerChange(event) {
   <select on:change={handleServerChange} class=" bg-slate-700 text-white" name="server" id="server">
     <option value="super1">Super1</option>
     <option value="vidsrc2">Vidsrc2</option>
-    <option value="smashybro">Smashybro</option>
+    <option value="primewire">Smashybro</option>
     <option value="vidsrc3">Vidsrc3</option>
     <option value="club1">Club1</option>
     <option value="motion">Motion - no ads</option>
   </select>
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>updateFrameUrl()}>Choose</button>
-  {#if type==="TV%20Series"}
+  {#if type==="Tv%20Series"}
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>changep()}>Next Episode</button>
   <button class=" text-white bg-slate-400 p-1 rounded-md" on:click={()=>seasonsel()}>Show All Episode</button>
   {/if}
@@ -176,16 +177,16 @@ function handleServerChange(event) {
           We use freely available servers which can contain popup and ads. We strongly recommend you use an ad blocker.
         </Alert.Description>
       </Alert.Root>
-      {#if allseasons && allseasons.seasons}
+      {#if allseasonsdata && allseasons}
         <div class="grid-cols-3 p-2">
           <DropdownMenu.Root class="outline-1">
-            <DropdownMenu.Trigger class="border border-gray-400 p-2 rounded-sm">Season - {allseasonsdata.season}</DropdownMenu.Trigger>
+            <DropdownMenu.Trigger class="border border-gray-400 p-2 rounded-sm">Season - {allseasonsdata.season_number}</DropdownMenu.Trigger>
             <DropdownMenu.Content>
               <DropdownMenu.Group class="outline-2">
                 <DropdownMenu.Label>Seasons</DropdownMenu.Label>
                 <DropdownMenu.Separator />
                 {#each allseasons.seasons as season}
-                  <DropdownMenu.Item on:click={() => seasonchange(season.season)}>{season.season}</DropdownMenu.Item>
+                  <DropdownMenu.Item on:click={() => seasonchange(season.season_number)}>{season.season_number}</DropdownMenu.Item>
                 {/each}
               </DropdownMenu.Group>
             </DropdownMenu.Content>
@@ -193,17 +194,17 @@ function handleServerChange(event) {
         </div>
         <div class="h-14">
           {#each eplist as d}
-            <button on:click={() => playep(showid, d.season, d.episode)}>
+            <button on:click={() => playep(showid, d.season_number, d.episode_number)}>
               <div class="flex p-2">
                 <Card.Root>
-                  <img class="w-full h-[100px] object-cover rounded-t-lg" src={d.img.hd} alt="">
+                  <img class="w-full h-[100px] object-cover rounded-t-lg" src={`https://image.tmdb.org/t/p/w500/${d.still_path}`} alt="">
                   <Card.Header>
-                    <Card.Title>{d.title} (episode-{d.episode})</Card.Title>
+                    <Card.Title>{d.name} (episode-{d.episode_number})</Card.Title>
                     <div class="flex mt-2">
                       <CalendarDays class="h-[1.2rem] text-yellow-400 w-[1.2rem]" />
-                      <p class="ml-1 text-sm text-yellow-400">{d.releaseDate}</p>
+                      <p class="ml-1 text-sm text-yellow-400">{d.release_date}</p>
                     </div>
-                    <Card.Description>{d.description}</Card.Description>
+                    <Card.Description>{d.overview}</Card.Description>
                   </Card.Header>
                 </Card.Root>
               </div>

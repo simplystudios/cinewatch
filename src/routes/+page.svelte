@@ -56,8 +56,8 @@
   const ggs = async (data, type) => {
     window.open(`/info?id=${data}?type=${type}`, "_self");
   };
-  const play = async (data) => {
-    window.open(`/watch?id=${data}`, "_self");
+  const play = async (data, type) => {
+    window.open(`/watch?id=${data}?type=${type}`, "_self");
   };
 
   const func = async () => {
