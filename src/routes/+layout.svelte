@@ -2,12 +2,12 @@
   import "../app.pcss";
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { toggleMode } from "mode-watcher";
-  import { tmdbapikey } from '$lib/ss';
+  import { tmdbapikey } from "$lib/ss";
   import * as Dialog from "$lib/components/ui/dialog";
   import { Button } from "$lib/components/ui/button";
   import * as RadioGroup from "$lib/components/ui/radio-group";
   import Sun from "lucide-svelte/icons/sun";
-  import { X } from 'lucide-svelte';
+  import { X } from "lucide-svelte";
   import Search from "lucide-svelte/icons/search";
   import * as Tabs from "$lib/components/ui/tabs";
   import { Settings } from "lucide-svelte";
@@ -27,18 +27,22 @@
   let dialogOpen = false;
 
   const ggs = async (id, type) => {
-    window.open(`/info?id=${id}&type=${type}`, "_self");
+    // Map type to "Movie" and "TV Show"
+    const formattedType = type === "movie" ? "Movie" : type === "tv" ? "TV Show" : type;
+    window.open(`/info?id=${id}&type=${formattedType}`, "_self");
   };
 
   const func = async () => {
     if (!searchterm.trim()) return;
 
     try {
-      const response = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${tmdbapikey}&query=${encodeURIComponent(searchterm)}`);
+      const response = await fetch(
+        `https://api.themoviedb.org/3/search/multi?api_key=${tmdbapikey}&query=${encodeURIComponent(searchterm)}`
+      );
       const results = (await response.json()).results || [];
 
       // Filter results to only include movies and TV shows
-      searchd = results.filter(item => item.media_type === "movie" || item.media_type === "tv");
+      searchd = results.filter((item) => item.media_type === "movie" || item.media_type === "tv");
     } catch (error) {
       console.error("Error fetching search results:", error);
       toast.error("Failed to fetch search results. Please try again.");
@@ -131,7 +135,8 @@
                 <div class="p-5">
                   <h1>{sd.title || sd.name}</h1>
                   <p>{sd.release_date || sd.first_air_date}</p>
-                  <p>{sd.media_type}</p>
+                  <!-- Map media_type to "Movie" or "TV Show" -->
+                  <p>{sd.media_type === "movie" ? "Movie" : sd.media_type === "tv" ? "TV Show" : sd.media_type}</p>
                 </div>
               </div>
             {/each}
@@ -142,9 +147,7 @@
   {/if}
 </slot>
 
-
 <style>
-  
   ::-webkit-scrollbar {
     width: 6px;
   }
