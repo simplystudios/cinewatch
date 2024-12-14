@@ -27,7 +27,7 @@
   let dialogOpen = false;
 
   const ggs = async (id, type) => {
-    // Map type to "Movie" and "TV Show"
+    // Map type to "Movie" and "Tv Series"
     const formattedType = type === "movie" ? "Movie" : type === "tv" ? "TV Show" : type;
     window.open(`/info?id=${id}&type=${formattedType}`, "_self");
   };
