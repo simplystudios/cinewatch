@@ -37,6 +37,8 @@ let eplist = [];
 let allseasonsdata = {};
 let playerurl;
 let mid;
+let showAll;
+let cast = [];
 let type;
 let seasonid=0;
 let pageurl = '';
@@ -56,6 +58,11 @@ let loading = true;
       try {
       const api = `https://api.themoviedb.org/3/movie/${mid}?api_key=07d7cff6553ffe45f88ee4c89a93a12c`;
       const response = await fetch(api);
+      const castreq2 =  `https://api.themoviedb.org/3/movie/${mid}/credits?api_key=07d7cff6553ffe45f88ee4c89a93a12c`
+      const castres2 = await fetch(castreq2);
+      cast = await castres2.json()
+      cast = cast['cast']
+      console.log(cast)
       pi = await response.json();
       console.log(pi);
       pimg = `https://image.tmdb.org/t/p/w1280/${pi.poster_path}`
@@ -83,7 +90,12 @@ loading = false;
     else if (type=="Tv Series"){
         
         const api2 = `https://api.themoviedb.org/3/tv/${mid}?api_key=07d7cff6553ffe45f88ee4c89a93a12c`;
+        const castreq =  `https://api.themoviedb.org/3/tv/${mid}/credits?api_key=07d7cff6553ffe45f88ee4c89a93a12c`
+        const castres = await fetch(castreq);
         const response2 = await fetch(api2);
+        cast = await castres.json()
+        cast = cast['cast']
+        console.log(cast['cast'])
         pi = await response2.json()
         pimg = `https://image.tmdb.org/t/p/w1280/${pi.poster_path}`
       pcover = `https://image.tmdb.org/t/p/w1280/${pi.backdrop_path}`
@@ -105,7 +117,8 @@ loading = false;
 // Log the result
 console.log(dumbLogo);
     }
-  })
+  });
+  $: visibleCast = showAll ? cast : cast.slice(0, 10);
 
 
 const seasonchange = async(no) => {
@@ -149,6 +162,7 @@ const func = async () => {
         console.error("Error fetching data:", error);
     }
 };
+
 </script>
 
 {#if loading}
@@ -175,7 +189,7 @@ const func = async () => {
   <!-- Shimmer effect for the buttons -->
   
 </div>
-{:else if pi}
+{:else}
 <Layout/>
 <div 
   style="
@@ -184,16 +198,30 @@ const func = async () => {
     background-size: cover;
     background-position: center;
   " 
-  class="absolute z-0 w-full h-[70vh]">
+  class="fixed z-0 w-full h-[140vh]">
+  {#if pcover}
   <img src={pcover} class="opacity-15 object-cover w-full h-full" alt="Backdrop image">
+  {:else}
+  <img src="/stranger.jpg" class="opacity-15 object-cover w-full h-full" alt="Backdrop image">
+  {/if}
 </div>
 
-<div class=" relative top-20  z-0 w-auto text-center mb-20 justify-center flex lg:block ">
+<div class=" relative md:top-28 top-20 z-0 w-auto text-center mb-20 justify-center flex lg:block ">
  
   <div class=" mt-12 block text-center p-3 lg:flex lg:justify-center align-center content-center top-0 ">
-
-       <img src={pimg} alt="" class=" z-0 ml-[38%] mr-[50%] lg:ml-0 lg:mr-0 sm:w-[25vw] sm:h-[40vw] w-[30vw] h-[50vw] mb-2  rounded-sm">
-       
+      {#if pimg}
+      <div class="flex justify-center">
+  <div class="aspect-[2/3] w-[342px] lg:w-[380px]">
+    <img 
+      src={pimg} 
+      alt="Movie Poster" 
+      class="object-cover w-full h-full rounded-sm z-0 mb-2"
+    >
+  </div>
+</div>
+       {:else}
+      <img src="/stranger.jpg" alt="" class=" z-0 ml-[38%] mr-[50%] lg:ml-0 lg:mr-0 sm:w-[25vw] sm:h-[40vw] w-[30vw] h-[50vw] mb-2  rounded-sm">
+       {/if}
         <div class="block">
            {#if !dumbimgs}
             <h1 class="ml-5 text-3xl font-bold">{pi.title}</h1>
@@ -235,12 +263,11 @@ const func = async () => {
           {/each}
         {/if}
 
-
       </div>
       </div>
       
         </div>
-         <div class="content-right h-[47vw] overflow-scroll">
+         <div class="content-right h-90 lg:h-[47vw]  overflow-scroll">
     {#if type == "Tv Series"}
         <div class="flex justify-center align-center">
           <DropdownMenu.Root class="outline-1 w-[400px]">
@@ -293,6 +320,7 @@ const func = async () => {
       {/if}
   </div>
       </div>
+
   <div class="flex justify-center align-center">
     <div class="text-center">
       {#if !logoshow === "undefined"}
@@ -303,13 +331,40 @@ const func = async () => {
       <br>
       <br>
       
-
     </div>
   </div>
 <br>
 </div>
+{#if cast}
+  <div class="mt-5 z-50">
+    <div class="flex justify-start">
+      <h1 class="text-2xl pl-10 z-50 justify-start">Actors</h1>
+    </div>
+    <div class="flex justify-center">
+      <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 overflow-scroll mt-3 p-10">
+        {#each visibleCast as ca}
+          <div class="flex m-2 z-50 bg-gray-800 rounded-s-md rounded-e-md">
+            {#if ca.profile_path}
+              <img src={`https://image.tmdb.org/t/p/w185/${ca.profile_path}`} alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
+            {:else}
+              <img src="https://i.pinimg.com/1200x/c2/65/20/c26520f649ac37dbda7d7bd40f3e040e.jpg" alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
+            {/if}
+            <div class="m-1 md:p-4 p-0">
+              <h2 class="text-lg font-bold">{ca.name}</h2>
+              <h3 class="text-sm">{ca.character}</h3>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+    <div class="flex justify-center mt-4 z-50">
+      <button on:click={() => showAll = !showAll} class="bg-blue-500 text-white px-4 py-2 rounded">
+        {showAll ? 'Show Less' : 'View More'}
+      </button>
+    </div>
+  </div>
 {/if}
-
+{/if}
 
 
 <style>

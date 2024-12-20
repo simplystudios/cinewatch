@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="js">
   // @ts-nocheck
   import { baseurl } from '$lib/ss';
   import { Button } from "$lib/components/ui/button";

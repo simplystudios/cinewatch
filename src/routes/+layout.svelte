@@ -1,4 +1,4 @@
-<script>
+<script lang="js">
   import "../app.pcss";
   import Separator from "$lib/components/ui/separator/separator.svelte";
   import { toggleMode } from "mode-watcher";
@@ -28,8 +28,8 @@
 
   const ggs = async (id, type) => {
     // Map type to "Movie" and "Tv Series"
-    const formattedType = type === "movie" ? "Movie" : type === "tv" ? "TV Show" : type;
-    window.open(`/info?id=${id}&type=${formattedType}`, "_self");
+    const formattedType = type === "movie" ? "Movie" : type === "tv" ? "Tv Series" : type;
+    window.open(`/info?id=${id}?type=${formattedType}`, "_self");
   };
 
   const func = async () => {
@@ -85,9 +85,8 @@
 
 <slot>
   <!-- Top Search Bar -->
-  <div class="fixed z-10 p-8 backdrop-blur-sm bg-[#0e0d0d71] w-full h-20">
-    <div class="flex absolute w-[90%]">
-      <Button on:click={toggleMode} class="" variant="link" size="icon">
+  <div class="fixed flex z-10 p-8 backdrop-blur-sm w-full bg-[#0e0d0d71] h-24">
+    <Button on:click={toggleMode} class="" variant="link" size="icon">
         {#if $mode === "light"}
           <Sun class="h-[1.2rem] w-[1.2rem] text-foreground" />
         {:else}
@@ -95,15 +94,16 @@
         {/if}
       </Button>
       <Separator class="mr-0" orientation="vertical" />
-      <div class="flex border bg-[#0307126c] w-full text-sm border-[#4D4A4A] rounded-md">
-        <p on:click={openPalette} class="p-2 w-full bg-transparent text-sm rounded-md">Search with Ctrl + P</p>
+    <div class="flex h-10 w-full">
+      <div class="flex border bg-[#0307126c] w-full  text-sm border-[#4D4A4A] rounded-md">
+        <p on:click={openPalette} class="p-2  bg-transparent text-sm rounded-md">Search with Ctrl + P</p>
         <Search size="18px" on:click={openPalette} color="#9AA0AD" class="hidden sm:block mt-[10px] mr-2" />
       </div>
-      <Separator class="" orientation="vertical" />
+    </div>
+    <Separator class="" orientation="vertical" />
       <Button on:click={() => (dialogOpen = true)} variant="icon" size="icon">
         <Settings class="h-[1.2rem] w-[1.2rem]" />
       </Button>
-    </div>
   </div>
 
   {#if $isPaletteOpen}
