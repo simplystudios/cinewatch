@@ -14,6 +14,7 @@ import { Button } from "$lib/components/ui/button";
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import { Github } from 'lucide-svelte';
   import { Badge } from "$lib/components/ui/badge";
+  import CardHeader from "$lib/components/ui/card/card-header.svelte";
   let searchterm = "";
 let searchd = [];
 let searchcss = "flex items-center justify-center p-40 pt-10 pb-20 mb-10";
@@ -25,6 +26,7 @@ let logoshow;
 let dialogOpen = false;
 let hid = "flex justify-center pt-20";
 let id;
+let showAllVids=false;
 let hid2 = "flex justify-center";
 let epnum = 0;
 let showid;
@@ -37,8 +39,11 @@ let eplist = [];
 let allseasonsdata = {};
 let playerurl;
 let mid;
+let videosm = [];
 let showAll;
 let cast = [];
+let visibleCast = [];
+let visibleVids = [];
 let type;
 let seasonid=0;
 let pageurl = '';
@@ -60,11 +65,16 @@ let loading = true;
       const response = await fetch(api);
       const castreq2 =  `https://api.themoviedb.org/3/movie/${mid}/credits?api_key=07d7cff6553ffe45f88ee4c89a93a12c`
       const castres2 = await fetch(castreq2);
+      const videosreqm = await fetch(`https://api.themoviedb.org/3/movie/${mid}/videos?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
+      videosm = await videosreqm.json();
+      videosm = videosm.results;
+
       cast = await castres2.json()
       cast = cast['cast']
       console.log(cast)
       pi = await response.json();
       console.log(pi);
+      showid = pi.id;
       pimg = `https://image.tmdb.org/t/p/w1280/${pi.poster_path}`
       pcover = `https://image.tmdb.org/t/p/w1280/${pi.backdrop_path}`
       let dumblogoResponse = await fetch(`https://api.themoviedb.org/3/movie/${mid}/images?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
@@ -93,18 +103,21 @@ loading = false;
         const castreq =  `https://api.themoviedb.org/3/tv/${mid}/credits?api_key=07d7cff6553ffe45f88ee4c89a93a12c`
         const castres = await fetch(castreq);
         const response2 = await fetch(api2);
-        cast = await castres.json()
-        cast = cast['cast']
-        console.log(cast['cast'])
-        pi = await response2.json()
+        const videosreqtv = await fetch(`https://api.themoviedb.org/3/movie/${mid}/videos?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
+        videosm = await videosreqtv.json();
+        videosm = videosm.results;
+        cast = await castres.json();
+        cast = cast['cast'];
+        console.log(cast['cast']);
+        pi = await response2.json();
         pimg = `https://image.tmdb.org/t/p/w1280/${pi.poster_path}`
-      pcover = `https://image.tmdb.org/t/p/w1280/${pi.backdrop_path}`
-       allseasons = pi.seasons;
-       showid = pi.id;
-       console.log(allseasons)
-       seasonchange(1)
-       let dumblogoResponse = await fetch(`https://api.themoviedb.org/3/tv/${mid}/images?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
-    let dumblogoJson = await dumblogoResponse.json();
+        pcover = `https://image.tmdb.org/t/p/w1280/${pi.backdrop_path}`
+        allseasons = pi.seasons;
+        showid = pi.id;
+        console.log(allseasons)
+        seasonchange(1)
+        let dumblogoResponse = await fetch(`https://api.themoviedb.org/3/tv/${mid}/images?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
+        let dumblogoJson = await dumblogoResponse.json();
 
     // Filter logos to get only the ones with English language ("en")
       let englishLogos = dumblogoJson.logos.filter(logo => logo.iso_639_1 === "en");
@@ -119,6 +132,7 @@ console.log(dumbLogo);
     }
   });
   $: visibleCast = showAll ? cast : cast.slice(0, 10);
+  $: visibleVids = showAllVids ? videosm : videosm.slice(0, 5);
 
 
 const seasonchange = async(no) => {
@@ -144,8 +158,11 @@ const playnextep = (id, season, ep, type) => {
 const openplayer = async (id, type) => {
     if (type == "Tv Series") {
         window.open(`/watch?id=${id}?se=1-1?type=${type}`);
-    } else {
-        window.open(`/watch?id=${id}`);
+    } else  if (type == "Movie") {
+        window.open(`/watch?id=${id}?type=${type}`);
+    }
+    else {
+      console.log("p")
     }
 };
 
@@ -167,7 +184,7 @@ const func = async () => {
 
 {#if loading}
 <div class="text-center mt-5 mb-0">
-  <h1 class="text-slate-500">*PSA : Loading Times Might Be High Right Now. We Are Currently Running On Temp Servers.</h1>
+  <h1 class="text-slate-500">*PSA : Well Seems like i am going to have to release a alpha build so there might be bugs also ignore the big blue view more button it'll go away by tomorrow</h1>
 </div>
 <div class="mt-12 block text-center p-3 lg:flex lg:justify-center align-center content-center top-0">
   <!-- Shimmer effect for the image -->
@@ -226,15 +243,15 @@ const func = async () => {
            {#if !dumbimgs}
             <h1 class="ml-5 text-3xl font-bold">{pi.title}</h1>
            {:else}
-            <div class="flex justify-center">
-            <img class=" w-[16vw] h-[8vw]" src={dumbimgs} alt="">
+            <div class="flex justify-center items-center">
+              <img class="w-full max-w-[120px] sm:max-w-[150px] md:max-w-[200px] lg:max-w-[250px] xl:max-w-[300px] h-auto shadow-md object-contain" src={dumbimgs} alt="">
           </div>
           {/if} 
           <!-- > -->
           {#if type == "Tv Series"}
-            <Button on:click={() => openplayer(showid, type)} class="m-5 w-max md:w-64">Watch From Ep 1</Button>
+            <Button on:click={() => openplayer(showid, type)} class="m-5 w-full md:w-64">Watch From Ep 1</Button>
           {:else}
-            <Button on:click={() => openplayer(showid, type)} class="m-5 w-max md:w-64">Watch</Button>
+            <Button on:click={() => openplayer(showid, type)} class="m-5 w-full md:w-64">Watch</Button>
           {/if}
           <div class="flex justify-center p-3">
               <Badge class="ml-2" variant="secondary">{type}</Badge>
@@ -341,29 +358,58 @@ const func = async () => {
       <h1 class="text-2xl pl-10 z-50 justify-start">Actors</h1>
     </div>
     <div class="flex justify-center">
-      <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 overflow-scroll mt-3 p-10">
+      <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 overflow-scroll mt-3 p-10">
         {#each visibleCast as ca}
-          <div class="flex m-2 z-50 bg-gray-800 rounded-s-md rounded-e-md">
-            {#if ca.profile_path}
-              <img src={`https://image.tmdb.org/t/p/w185/${ca.profile_path}`} alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
-            {:else}
-              <img src="https://i.pinimg.com/1200x/c2/65/20/c26520f649ac37dbda7d7bd40f3e040e.jpg" alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
-            {/if}
-            <div class="m-1 md:p-4 p-0">
-              <h2 class="text-lg font-bold">{ca.name}</h2>
-              <h3 class="text-sm">{ca.character}</h3>
-            </div>
-          </div>
+        <div class="flex m-2 z-50 rounded-s-md rounded-e-md">
+          <Card.Root class="flex m-2 z-50 w-72">
+          {#if ca.profile_path}
+            <img src={`https://image.tmdb.org/t/p/w185/${ca.profile_path}`} alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
+          {:else}
+            <img src="https://i.pinimg.com/1200x/c2/65/20/c26520f649ac37dbda7d7bd40f3e040e.jpg" alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
+          {/if}
+          <Card.Header>
+            <Card.Title>{ca.name}</Card.Title>
+            <Card.Description>{ca.character}</Card.Description>
+          </Card.Header>
+        </Card.Root>
+        </div>
         {/each}
-      </div>
-    </div>
-    <div class="flex justify-center mt-4 z-50">
-      <button on:click={() => showAll = !showAll} class="bg-blue-500 text-white px-4 py-2 rounded">
+        <div class="flex justify-center mt-4 z-50">
+      <button on:click={() => showAll = !showAll} class="bg-blue-500 h-36 w-52 z-50 text-white px-4 py-2 rounded">
         {showAll ? 'Show Less' : 'View More'}
       </button>
     </div>
+      </div>
+      
+    </div>
   </div>
 {/if}
+{#if videosm}
+  <div class="mt-5 z-10">
+    <div class="flex justify-start">
+      <h1 class="text-2xl pl-10 z-50 justify-start">Videos</h1>
+    </div>
+    <div class="flex justify-center">
+      <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 overflow-scroll mt-3 p-10">
+        {#each visibleVids as video}
+        <div class=" m-5 p-2 z-50 rounded-s-md rounded-e-md">
+          <Card.Root class=" m-2 z-50 w-72">
+            <img src={`https://img.youtube.com/vi/${video.key}/0.jpg`} alt="{video.name}" class="w-full h-36 object-cover rounded-s-lg">
+          <Card.Header>
+            <Card.Description>{video.type}</Card.Description>
+          </Card.Header>
+        </Card.Root>
+        </div>
+        {/each}
+        <br>
+        <button on:click={() => showAllVids = !showAllVids} class="bg-blue-500 h-36 w-52 z-50 text-white px-4 py-2 rounded">
+        {showAllVids ? 'Show Less' : 'View More'}
+      </button>
+        
+      </div>
+    </div>
+  </div>
+  {/if}
 {/if}
 
 

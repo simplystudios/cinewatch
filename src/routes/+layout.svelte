@@ -94,9 +94,9 @@
         {/if}
       </Button>
       <Separator class="mr-0" orientation="vertical" />
-    <div class="flex h-10 w-full">
+    <div class="flex h-10 z-50 w-full">
       <div class="flex border bg-[#0307126c] w-full  text-sm border-[#4D4A4A] rounded-md">
-        <p on:click={openPalette} class="p-2  bg-transparent text-sm rounded-md">Search with Ctrl + P</p>
+        <p on:click={openPalette} class="p-2  bg-transparent text-sm rounded-md w-full">Search with Ctrl + P</p>
         <Search size="18px" on:click={openPalette} color="#9AA0AD" class="hidden sm:block mt-[10px] mr-2" />
       </div>
     </div>
@@ -104,6 +104,7 @@
       <Button on:click={() => (dialogOpen = true)} variant="icon" size="icon">
         <Settings class="h-[1.2rem] w-[1.2rem]" />
       </Button>
+      
   </div>
 
   {#if $isPaletteOpen}

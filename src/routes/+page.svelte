@@ -173,7 +173,7 @@ console.log(dumbLogo);
 <br class="bar2">
 
   <div class="px-4 md:px-12 mt-15 sm:mt-30 md:mt-8 lg:mt-5 space-y-8">
-    <h2 class="text-xl z-10 relative font-bold ml-1 sm:mt-20 mt-5">Top Tv Shows</h2>
+    <h2 class="text-xl z-0 relative font-bold ml-1 sm:mt-20 mt-5">Top Tv Shows</h2>
     {#if popshow.length>0}
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
       {#each popshow as d}

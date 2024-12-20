@@ -46,9 +46,9 @@ function updateFrameUrl() {
       frameurl = `https://vidsrc.me/embed/tv/${id}/${se}`;
     }
      else if (serverid === "club1") {
-      frameurl = `https://www.vidbinge.com/media/tmdb-tv-${id}`;
+      frameurl = `https://embed.su/embed/tv/${id}/${seasonNumber}/{episodeNumber}`;
     } else if (serverid === "vidsrc3") {
-      window.open(`https://vidsrc.pro/embed/tv/${id}/${se}`, "_blank");
+      frameurl = `https://vidsrc.pro/embed/tv/${id}/${se}`;
     } else if (serverid === "super1") {
       frameurl = `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`;
     } else if (serverid == "motion") {
@@ -65,7 +65,7 @@ function updateFrameUrl() {
     } else if (serverid === "vidsrc3") {
       frameurl = `https://vidsrc.pro/embed/movie/${id}`;
     }else if (serverid === "club1") {
-      window.open(`https://www.vidbinge.com/media/tmdb-movie-${id}`, "_blank");
+      frameurl = `https://embed.su/embed/movie/${id}`;
     }else if (serverid === "super1") {
       frameurl = `https://multiembed.mov/?video_id=${id}&tmdb=1`;
     }  else if (serverid == "motion") {
