@@ -73,6 +73,7 @@ let loading = true;
 
 // Log the result
     console.log(dumbLogo);
+loading = false;
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
