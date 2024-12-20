@@ -128,8 +128,8 @@ const playnextep = (id, season, ep, type) => {
 };
 
 const openplayer = async (id, type) => {
-    if (type == "tv") {
-        window.open(`/watch?id=${id}?se=${1-1}`);
+    if (type == "Tv Series") {
+        window.open(`/watch?id=${id}?se=1-1?type=${type}`);
     } else {
         window.open(`/watch?id=${id}`);
     }
@@ -202,7 +202,11 @@ const func = async () => {
           </div>
           {/if} 
           <!-- > -->
-          <Button on:click={() => openplayer(pageurl, type)} class="m-5 w-max md:w-64">Watch</Button>
+          {#if type == "Tv Series"}
+            <Button on:click={() => openplayer(showid, type)} class="m-5 w-max md:w-64">Watch From Ep 1</Button>
+          {:else}
+            <Button on:click={() => openplayer(showid, type)} class="m-5 w-max md:w-64">Watch</Button>
+          {/if}
           <div class="flex justify-center p-3">
               <Badge class="ml-2" variant="secondary">{type}</Badge>
               <Badge class="ml-2" variant="secondary">{pi.vote_average}</Badge>
