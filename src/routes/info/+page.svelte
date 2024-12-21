@@ -249,9 +249,9 @@ const func = async () => {
           {/if} 
           <!-- > -->
           {#if type == "Tv Series"}
-            <Button on:click={() => openplayer(showid, type)} class="m-5 w-full md:w-64">Watch From Ep 1</Button>
+            <Button on:click={() => openplayer(showid, type)} class="m-5 max-w-72 md:w-52 md:max-w-full">Watch From Ep 1</Button>
           {:else}
-            <Button on:click={() => openplayer(showid, type)} class="m-5 w-full md:w-64">Watch</Button>
+            <Button on:click={() => openplayer(showid, type)} class="m-5 max-w-72 md:w-52 md:max-w-full">Watch</Button>
           {/if}
           <div class="flex justify-center p-3">
               <Badge class="ml-2" variant="secondary">{type}</Badge>
@@ -353,15 +353,15 @@ const func = async () => {
 <br>
 </div>
 {#if cast}
-  <div class="mt-5 z-50">
+  <div class="mt-5 z-10">
     <div class="flex justify-start">
-      <h1 class="text-2xl pl-10 z-50 justify-start">Actors</h1>
+      <h1 class="text-2xl pl-10 z-10 justify-start">Actors</h1>
     </div>
     <div class="flex justify-center">
       <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 overflow-scroll mt-3 p-10">
         {#each visibleCast as ca}
-        <div class="flex m-2 z-50 rounded-s-md rounded-e-md">
-          <Card.Root class="flex m-2 z-50 w-72">
+        <div class="flex m-2 z-10 rounded-s-md rounded-e-md">
+          <Card.Root class="flex m-2 z-10 w-72">
           {#if ca.profile_path}
             <img src={`https://image.tmdb.org/t/p/w185/${ca.profile_path}`} alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
           {:else}
@@ -374,9 +374,9 @@ const func = async () => {
         </Card.Root>
         </div>
         {/each}
-        <div class="flex justify-center mt-4 z-50">
-      <button on:click={() => showAll = !showAll} class="bg-blue-500 h-36 w-52 z-50 text-white px-4 py-2 rounded">
-        {showAll ? 'Show Less' : 'View More'}
+        <div class="flex justify-center mt-9 ml-0 mr-10 z-20">
+      <button on:click={() => showAll = !showAll} class="bg-gray-500 h-24 w-24 z-50 text-white px-4 py-2 rounded-full">
+        {showAll ? '◀' : '▶'}
       </button>
     </div>
       </div>
@@ -390,21 +390,22 @@ const func = async () => {
       <h1 class="text-2xl pl-10 z-50 justify-start">Videos</h1>
     </div>
     <div class="flex justify-center">
-      <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 overflow-scroll mt-3 p-10">
+      <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 overflow-scroll space-x-2 mt-3 p-10">
         {#each visibleVids as video}
         <div class=" m-5 p-2 z-50 rounded-s-md rounded-e-md">
-          <Card.Root class=" m-2 z-50 w-72">
-            <img src={`https://img.youtube.com/vi/${video.key}/0.jpg`} alt="{video.name}" class="w-full h-36 object-cover rounded-s-lg">
+          <Card.Root class=" m-2 z-50 w-64">
+            <img src={`https://img.youtube.com/vi/${video.key}/0.jpg`} alt="{video.name}" class="w-full h-36 object-cover rounded-s-lg rounded-e-lg">
           <Card.Header>
             <Card.Description>{video.type}</Card.Description>
           </Card.Header>
         </Card.Root>
         </div>
         {/each}
-        <br>
-        <button on:click={() => showAllVids = !showAllVids} class="bg-blue-500 h-36 w-52 z-50 text-white px-4 py-2 rounded">
-        {showAllVids ? 'Show Less' : 'View More'}
+        <div class="flex justify-center mt-24 ml-10 z-20">
+           <button on:click={() => showAllVids = !showAllVids} class="bg-gray-500 h-24 w-24 z-50 text-white px-4 py-2 rounded-full">
+        {showAllVids ? '◀' : '▶'}
       </button>
+        </div>
         
       </div>
     </div>
