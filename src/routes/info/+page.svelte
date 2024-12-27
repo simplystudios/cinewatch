@@ -103,7 +103,7 @@ loading = false;
         const castreq =  `https://api.themoviedb.org/3/tv/${mid}/credits?api_key=07d7cff6553ffe45f88ee4c89a93a12c`
         const castres = await fetch(castreq);
         const response2 = await fetch(api2);
-        const videosreqtv = await fetch(`https://api.themoviedb.org/3/movie/${mid}/videos?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
+        const videosreqtv = await fetch(`https://api.themoviedb.org/3/tv/${mid}/videos?api_key=07d7cff6553ffe45f88ee4c89a93a12c`);
         videosm = await videosreqtv.json();
         videosm = videosm.results;
         cast = await castres.json();
