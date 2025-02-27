@@ -32,6 +32,7 @@
     "mode-watcher": "^0.3.0",
     "svelte-carousel": "^1.0.25",
     "svelte-embla": "^0.0.7",
+    "svelte-read-more": "^0.2.1",
     "svelte-sonner": "^0.3.19",
     "tailwind-merge": "^2.2.1",
     "tailwind-variants": "^0.2.1",

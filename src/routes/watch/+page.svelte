@@ -51,6 +51,8 @@ function updateFrameUrl() {
       frameurl = `https://vidsrc.pro/embed/tv/${id}/${se}`;
     } else if (serverid === "super1") {
       frameurl = `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`;
+     } else if (serverid === "easyvid") {
+      frameurl = `https://player.videasy.net/tv/${id}/${seasonNumber}/${episodeNumber}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6`;
     } else if (serverid == "motion") {
       frameurl= `https://vidjoy.pro/embed/tv/${id}/${seasonNumber}/${episodeNumber}`
     }
@@ -68,6 +70,8 @@ function updateFrameUrl() {
       frameurl = `https://embed.su/embed/movie/${id}`;
     }else if (serverid === "super1") {
       frameurl = `https://multiembed.mov/?video_id=${id}&tmdb=1`;
+    } else if (serverid === "easyvid") {
+      frameurl = `https://player.videasy.net/movie/${id}?nextEpisode=true&autoplayNextEpisode=true&episodeSelector=true&color=8B5CF6`;
     }  else if (serverid == "motion") {
       frameurl= `https://vidjoy.pro/embed/movie/${id}`
     }
@@ -150,8 +154,9 @@ function handleServerChange(event) {
 <div class="absolute  bg-slate-700 p-2 rounded-sm">
   <select on:change={handleServerChange} class=" bg-slate-700 text-white" name="server" id="server">
     <option value="super1">Super1</option>
+    <option value="club1">Easyvid</option>
     <option value="vidsrc2">Vidsrc2</option>
-    <option value="primewire">Smashybro</option>
+    <option value="primewire">Streamy</option>
     <option value="vidsrc3">Vidsrc3</option>
     <option value="club1">Club1</option>
     <option value="motion">Motion - no ads</option>

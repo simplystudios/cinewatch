@@ -9,6 +9,7 @@
   import embla from "svelte-embla";
   import { setMode, resetMode, mode } from "mode-watcher";
   import { CalendarDays } from 'lucide-svelte';
+  import ReadMore from 'svelte-read-more';
   import { navigating } from '$app/stores'
   import { Pulse } from 'svelte-loading-spinners';
   import { Coffee } from 'lucide-svelte';
@@ -163,6 +164,7 @@ console.log(dumbLogo);
         </div>
         <div class="text-center md:text-left">
           <p class="w-auto lg:w-[50%]lg:line-clamp-4 text-sm sm:text-left line-clamp-2 mt-4 ">{dumb.overview}</p>
+          <ReadMore textContent={dumb.overview} maxChars={50}/>
         </div>
         <Button on:click={()=>ggs(dumb.id, "Movie")} class="mt-5 w-36 tex">More Info</Button>
         <Button on:click={()=>play(dumb.id)} variant="secondary" class="mt-5 w-36">Watch Now</Button>

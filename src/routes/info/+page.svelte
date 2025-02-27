@@ -360,7 +360,7 @@ const func = async () => {
     <div class="flex justify-center">
       <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 overflow-scroll mt-3 p-10">
         {#each visibleCast as ca}
-        <div class="flex m-2 z-10 rounded-s-md rounded-e-md">
+        <div on:click={() => window.open(`/person?id=${ca.id}`)} class="flex m-2 z-10 rounded-s-md rounded-e-md">
           <Card.Root class="flex m-2 z-10 w-72">
           {#if ca.profile_path}
             <img src={`https://image.tmdb.org/t/p/w185/${ca.profile_path}`} alt="{ca.name}" class="w-24 h-36 object-cover rounded-s-lg">
