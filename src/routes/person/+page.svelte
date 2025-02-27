@@ -12,7 +12,6 @@
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
   import { Github } from 'lucide-svelte';
   import { Badge } from "$lib/components/ui/badge";
-  import ReadMore from 'svelte-read-more';
   import CardHeader from "$lib/components/ui/card/card-header.svelte";
 
 
